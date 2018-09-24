@@ -1,0 +1,9 @@
+#+OPTIONS: toc:nil num:nil
+#+BEGIN_EXPORT html
+---
+layout: post
+title: "About The Blog"
+permalink: /:title/
+tags:[About]
+---
+#+END_EXPORT
