@@ -1,0 +1,9 @@
+---
+layout: post
+title: "About The Blog"
+permalink: /:title/
+tags: [about]
+---
+<p>
+About one year ago, I built a blog very easily by using Hexo and GithubPages,
+</p>

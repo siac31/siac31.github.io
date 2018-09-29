@@ -4,6 +4,6 @@
 layout: post
 title: "About The Blog"
 permalink: /:title/
-tags:[About]
+tags: [About]
 ---
 #+END_EXPORT
