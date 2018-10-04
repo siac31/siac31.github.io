@@ -139,10 +139,40 @@ The function of changing the background image as time goes is written in Page me
 <div class="org-src-container">
 
 <pre class="src src-js">Page({
+    data: {
+        <span style="color: #b0bec5;">//</span><span style="color: #b0bec5;">initialize data "myclass"</span>
+        myclass: {}
+    },
+
+    <span style="color: #84ffff;">onLoad</span>: <span style="color: #fff59d;">function</span> () {
+        <span style="color: #b0bec5;">//</span><span style="color: #b0bec5;">this will be executed when the program is loaded</span>
+        <span style="color: #fff59d;">var</span> <span style="color: #ffcc80;">that</span> = <span style="color: #8bc34a;">this</span>;
+        <span style="color: #fff59d;">var</span> <span style="color: #ffcc80;">date</span> = <span style="color: #fff59d;">new</span> <span style="color: #84ffff;">Date</span>();
+        <span style="color: #fff59d;">var</span> <span style="color: #ffcc80;">hour</span> = date.getHours();
+
+        <span style="color: #fff59d;">if</span> (hour &gt; 6 &amp;&amp; hour &lt; 16)
+            <span style="color: #b0bec5;">//</span><span style="color: #b0bec5;">change to the background of day</span>
+            that.setData({
+                myclass: <span style="color: #9ccc65;">"day"</span>
+        })
+        <span style="color: #fff59d;">else</span> <span style="color: #fff59d;">if</span> (hour &gt; 16 &amp;&amp; hour &lt; 19)
+            <span style="color: #b0bec5;">// </span><span style="color: #b0bec5;">change to the background of sunset</span>
+            that.setData({
+                myclass: <span style="color: #9ccc65;">"sunset"</span>
+        })
+        <span style="color: #fff59d;">else</span>
+           <span style="color: #b0bec5;">// </span><span style="color: #b0bec5;">change to the background of night</span>
+            that.setData({
+                myclass: <span style="color: #9ccc65;">"night"</span>
+        })
+    }
 
 })
 </pre>
 </div>
+<p>
+Noted that the setData function is used to send data from the logical layer to the view layer while changing the value of the corresponding this.Data. (See more about the usage of var that = this in javascript).
+</p>
 </div>
 </div>
 </div>

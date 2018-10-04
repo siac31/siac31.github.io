@@ -1,7 +1,7 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: "Notes of WeChat MiniApp"
+title: "Notes of WeChat Applet"
 permalink: /:title/
 tagxs: [about]
 ---
@@ -32,6 +32,7 @@ The structure of the program is like following:
 +--app.wxss
 +--app.js (There exists only one app.js file.)
 #+end_src
+[[../img/code_structure_of_wechar_applet.png]]
 The detailed description can be found at former mentioned links.
 * Time-based Background Image
 Let's add the simple function to the applet now! We hope that the background image of the weather applet will change as time goes. If you have some experience in HTML, JS, and CSS, you might figure out the solution immediately. Nevertheless, in WeChat Applet the solution does differ, even though the basic idea is the same.
