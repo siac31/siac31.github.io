@@ -14,7 +14,7 @@ Despite that a course design last semester gave me the opportunity to design the
 
 * Code Structure
 The structure of the program is like following:
-#+begin_src ditaa :file ~/siac31.github.io/img/code_structure_of_wechat_applet.png
+#+begin_src ditaa :file ../img/code_structure_of_wechat_applet.png
 +--pages (represents a page, which includes the .js,.json,.wxml, and .wxss files)
 |  |
 |  +--index
