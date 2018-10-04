@@ -1,0 +1,87 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "Notes of WeChat MiniApp"
+permalink: /:title/
+tagxs: [about]
+---
+#+END_HTML
+* Introduction
+
+According to the official introduction, the WeChat Applets can be easily acquired and spread in WeChat, that provides an enormously convenient connection between the users and abundant services. Thanks to the complete documents and the lightweight development tool, a quick start to develop a simple applet is possible. It's not impossible to say that everybody can build an applet. More information can be referred on the official online development documents: [[https://developers.weixin.qq.com/miniprogram/introduction/index.html?t%3D18082920][Introduction to WeChat Applet]].
+
+Despite that a course design last semester gave me the opportunity to design the user interface using JS, HTML, and CSS, I'm green in the field of front-end development. Fortunately, there are lots of good open-source programmes, so that I can fork them and learn how does everything go. I fork a program provided by [[http://swiftcafe.io/2016/10/03/wx-weather-app][SwiftCafe]], they explain at great length the structure of the program, data acquisition, and the logic of the application layer. The complete code can be download from Github: : [[https://github.com/swiftcafex/wechat-weather]].
+
+* Code Structure
+The structure of the program is like following:
+#+begin_src ditaa :file ~/siac31.github.io/img/code_structure_of_wechat_applet.png
++--pages (represents a page, which includes the .js,.json,.wxml, and .wxss files)
+|  |
+|  +--index
+|     |
+|     +--index.js
+|     +--index.json
+|     +--index.wxml
+|     +--index.wxss
+|
++--utils
+|  |
+|  +--util.js (defines the global variables, which can be acquired anywhere)
+|
++--app.json (global configuration. For instance, it defines the first page of the applet. )
++--app.wxss
++--app.js (There exists only one app.js file.)
+#+end_src
+The detailed description can be found at former mentioned links.
+* Time-based Background Image
+Let's add the simple function to the applet now! We hope that the background image of the weather applet will change as time goes. If you have some experience in HTML, JS, and CSS, you might figure out the solution immediately. Nevertheless, in WeChat Applet the solution does differ, even though the basic idea is the same.
+
+** Configuration of index.wxml
+Noted that this applet only has one page, the initial or in other words, the first page is described in the index.wxml file. The "box" of the page is defined by the top level class. We provide "{{}}" as the placeholder, and name it as "myclass".
+#+BEGIN_SRC html
+<view class="{{myclass}}">
+...
+</view>
+#+END_SRC
+** Configuration of app.wxss
+In app.wxss we difined the styles of three types of classes, namely "day", "sunset", and "night".
+#+BEGIN_SRC css
+.day{
+...
+background-image: url('...daytime_background...')
+}
+
+.sunset{
+...
+background-image: url('...sunset_background...')
+}
+
+.night{
+...
+background-image: url('...night_background...')
+}
+#+END_SRC
+Noted that, the image file must be online or converted to base64 codes.
+
+** Configuration of index.js
+The logical interaction is implemented in index.js. The official document gives the explaination:
+
+#+BEGIN_QUOTE
+"On the basis of JavaScript, we made some changes to facilitate the development of Mini Programs.
+
+    + Add App and Page methods to register programs and pages.
+    + Add getApp and getCurrentPages methods to get the app instance and the current page stack respectively.
+    + Provide a rich set of APIs, such as WeChat user data, Scan, payment and other WeChat unique capabilities.
+    + Each page has an independent scope and provides modular capabilities.
+    + Since the framework is not running in a browser, some capabilities of JavaScript are not available in the web, such as document and window.
+    + All the code written by the developer will eventually be packaged as a JavaScript and run when the Mini Program starts, until the Mini Program is destroyed. Similar to ServiceWorker, the logical layer is also called App Service."
+#+END_QUOTE
+
+
+The function of changing the background image as time goes is written in Page methods.
+
+#+BEGIN_SRC js
+Page({
+
+})
+#+END_SRC
