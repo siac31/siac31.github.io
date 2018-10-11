@@ -1,0 +1,108 @@
+#+OPTIONS: ^:{}
+#+BEGIN_COMMENT
+默认情况不转义 _
+#+END_COMMENT
+#+BEGIN_HTML
+---
+layout: post
+title: "Notes --- Tools of Data Visualization"
+permalink: /:title/
+tagxs: [Data Visualization]
+---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+* 前言
+本文属于整理的笔记，内容包含学习笔记，个人总结心得等等，保持持续更新，希望自己能坚持学习。
+参考链接：
++ [[https://www.douban.com/group/topic/113236201/][史上最全的python包管理器： Anaconda教程]]
+* Anaconda
+Anaconda以及Jupyter Notebook是数据分析的标准环境。Anaconda可以管理多个python版本环境：
+ + 管理包
+ + 管理环境
+** 管理包
+ + 安装包 _conda install package-name_ ， e.g.：
+   + _conda insatll pandas numpy_ (一次多个安装包)
+   + _conda install numpy=1.10_ (指定version)
+ + 卸载包 _conda remove package-name_
+ + 更新包 _conda update package-name_
+ + 列出已经安装的包 _conda list_
+ + 搜索名字不确定的包 _conda search search-term_, e.g. 如果不知道numpy怎么拼写的，则输入 _conda search num_
+** 管理环境
+ conda为不同项目简历不同的运行环境
+*** 0. 安装nb-conda用于notebook自动关联nb-conda环境
+_conda install nb-conda_
+*** 1. 创建环境
+_conda create -n env-name package-name_
+  + env-name环境名称 package-name安装在环境中的包
+  + -n表示环境的名称name是env-name
+e.g.在名为py3的环境中加入numpy： _conda create -n py3 numpy_
+
+#+BEGIN_CENTER
+!!!创建环境时可以指定安装在环境中的python版本， 对于同时使用python2.x和python3.x时很有用。E.g.：
+  + 名为py3的环境中创建python3： _conda create -n py3 python=3_
+  + 名为py2的环境中创建python2： _conda create -n py2 python=2_
+  + 具体特定版本如python3.6： _conda create -n py3 python=3.6_
+#+END_CENTER
+
+*** 2. 进入环境
+Linux下： _source activate my-env_
+在环境中对包的管理如1.中所述，不过此时安装的包只在环境中使用
+
+*** 3. 离开环境
+Linux下： _source deactivate_
+*** 4. 共享环境
+让别人安装你的代码中使用的所有包以及正确的版本。
+在当前环境中： _conda env export > environment.yaml_, 将当前环境保存.yaml文件（包含python版本和包名称），就可在刚刚的路径中看到此文件，其他电脑中就可以使用之前导出的环境。
+举个例子，进入自己的环境py3， _conda activate py3_
+更新环境 _conda env update -f=/path/environment.yaml_, 其中，-f表示要导出的文件在本地的路径。
+如果别人不用conda，则 pip freeze > environment.txt,别人的电脑就可以使用 pip install -r /path/environment.txt
+*** 5.列出环境
+_conda env list_
+
+*** 6. 删除环境
++ _conda remove --name py2 --all_
++ 或者 _conda env remove -n env-name_
+*** 7. 查看环境
+  _conda info --envs_
+
+* Numpy
+Numpy有着较强的数字计算能力(基于numpy的开源python库Pandas以后再记录），是科学计算的开源python扩充库，是其他数据分析包的基础包，很多的包都是基于Numpy的，比如Pandas，NumPy为python提供了高性能的数组与矩阵运算能力。
+
+新建一个环境 _conda create -n dataanalysis python=3_, 将ananconda要用的所有包放入此环境,打开jupter notebook
+
+#+BEGIN_CENTER
+1. source activate dataanalysis
+2. jupyter notebook
+#+END_CENTER
+** Ndarray多维数组
+#+BEGIN_COMMENT
+C-c C-c 自动格式化表格
+
+<Tab> 跳到下一个字段
+
+S- <Tab> 注意，用右Shift建，跳到前一个字段
+
+S-M- 下方向键，在当前行之前插入一行
+
+C-c <RET> 在当前行下面插入一行，并且光标移动到新插入的行
+#+END_COMMENT
+#+CAPTION: 常用函数
+| 函数             | 使用说明                             |
+|------------------+--------------------------------------|
+| arrange(n)      | 类似于内置的range函数，创建数组0~n-1 |
+| ones((m,n))      | 创建指定形状的全1数组或矩阵mxn       |
+| ones\_like(arr1) | 根据矩阵arr1和它的dtype创建一个全1矩阵 |
+| zeros,zeros_like  | 同上，全0                            |
+| empty,empty_like | 同上，空                             |
+| eye(n,dtype='int32'),identity |单位方阵 nxn                              |
+
+*** 创建多维数组
+
+
+** 数组的索引和切片
+
+** 数组运算
+学习与数值计算，列表运算等的不同。
+** 案例--简单的图像变换

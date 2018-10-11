@@ -3,7 +3,7 @@
 layout: post
 title: "Notes of WeChat Applet"
 permalink: /:title/
-tagxs: [about]
+tagxs: [WeChat]
 ---
 #+END_HTML
 * Introduction
@@ -39,14 +39,14 @@ Let's add the simple function to the applet now! We hope that the background ima
 
 ** Configuration of index.wxml
 Noted that this applet only has one page, the initial or in other words, the first page is described in the index.wxml file. The "box" of the page is defined by the top level class. We provide "{{}}" as the placeholder, and name it as "myclass".
-#+BEGIN_SRC html
+#+BEGIN_SRC html -n
 <view class="{{myclass}}">
 ...
 </view>
 #+END_SRC
 ** Configuration of app.wxss
 In app.wxss we difined the styles of three types of classes, namely "day", "sunset", and "night".
-#+BEGIN_SRC css
+#+BEGIN_SRC css -n
 .day{
 ...
 background-image: url('...daytime_background...')
@@ -81,7 +81,7 @@ The logical interaction is implemented in index.js. The official document gives 
 
 The function of changing the background image as time goes is written in Page methods.
 
-#+BEGIN_SRC js
+#+BEGIN_SRC js -n
 Page({
     data: {
         //initialize data "myclass"

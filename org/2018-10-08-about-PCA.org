@@ -1,0 +1,33 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Ideas of Linear Algebra"
+permalink: /:title/
+tagxs: [Foundamentals of Machine Learning]
+---
+#+END_HTML
+* Nonsense (Hhhhh)
+
+#+BEGIN_COMMENT
+When I was an undergraduate, my favorite courses were /Engineering Mathematics Analysis/, /Probability Theory and Mathematical Statistics/, /Physics/, and /Signals and Systems/. The professors were good at using the metaphor to lecture us on the theorems and formulas that are difficult to understand in an easy-to-understand way. But I couldn't get used to the teaching method of the course /Algebra and Geometry/, which made me a little bored. If I didn't like the lecture, the right thing I should do at length is to trying to do self-learniing. At that time, however, I chose to skip classes, so that I only got 70 scores of this course, compared to 100, 99 and 98 scores of my favorite courses mentioned above I felt really frustrated.
+#+END_COMMENT
+The application of linear algebra in engineering is very extensive and in-depth, and /Linear Algebra/ provides a beautiful mathematical interpretation of the real world. You may use it in different engineering fields, e.g. spatial coordinate transformation, wavelet analysis, Fourier transform, image processing, parameter identification, etc., all of which require you to have a solid knowledge of linear algebra. There are also many classic online open courses and resources. Actually, you will find that linear algebra is thoroughly interesting! This post will use PCA as an example to quickly browse through some important basic ideas of linear algebra. In the last semester, linear algebra was used in many courses, I'd better sort it out.
+
+* An Example "We" all Know
+If you are or have ever been a student from engineering, you must be very familiar with Fourier transformation that can transform a continuous periodic time domain signal to a discrete aperiodic frequency domain signal. Generally, in the time domain, the signal doesn't give us clear enough information, but in the frequency domain, we can find which frequencies own the relative higher amplitudes and then rank them. PCA is just like this (but not the same, PCA does lossy compression), it tries to find the principle components of the given data. that usually requires a new interpretation of the original data.
+
+* Description of Problem
+为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have \(m\) data \((x_1, x_2,..., x_m)\) in the $R^n$ space.
+
+
+
+* Solutions
+Two principles:
+ + 最近重构：投影平面与元数据尽可能近，重构方便
+ + 最大可分：在这个平面的投影尽量分开，重构的准确度
+
+
+有两种方式去看待和解决这个问题，但最终得到的结果是一样的。多了解一种看问题的方法总是好事。
+
+ + 重构误差最小
+ + 协方差推导，降维后，数据相关性最小化
