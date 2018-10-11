@@ -5,6 +5,9 @@ title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Idea
 permalink: /:title/
 tagxs: [Foundamentals of Machine Learning]
 ---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
 #+END_HTML
 * Nonsense (Hhhhh)
 
