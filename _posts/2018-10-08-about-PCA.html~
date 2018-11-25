@@ -44,7 +44,7 @@ If you are or have ever been a student from engineering, you must be very famili
 <h2 id="sec-3"><span class="section-number-2">3</span> Description of Problem</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have m data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>m</sub>) in the R<sup>n</sup> space.
+为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have m data $$(x_1, x_2,..., x_m)$$ in the $$R^n$$ space.
 </p>
 </div>
 </div>

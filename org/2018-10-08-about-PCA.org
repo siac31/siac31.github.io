@@ -9,6 +9,8 @@ tagxs: [Foundamentals of Machine Learning]
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
 #+END_HTML
+#OPTIONS: tex:t
+#OPTIONS: ^:{}
 * Nonsense (Hhhhh)
 
 #+BEGIN_COMMENT
@@ -20,7 +22,7 @@ The application of linear algebra in engineering is very extensive and in-depth,
 If you are or have ever been a student from engineering, you must be very familiar with Fourier transformation that can transform a continuous periodic time domain signal to a discrete aperiodic frequency domain signal. Generally, in the time domain, the signal doesn't give us clear enough information, but in the frequency domain, we can find which frequencies own the relative higher amplitudes and then rank them. PCA is just like this (but not the same, PCA does lossy compression), it tries to find the principle components of the given data. that usually requires a new interpretation of the original data.
 
 * Description of Problem
-为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have \(m\) data \((x_1, x_2,..., x_m)\) in the $R^n$ space.
+为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have m data (x_1, x_2,..., x_m) in the R^n space.
 
 
 
