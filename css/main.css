@@ -603,9 +603,9 @@ footer .theme-by {
   font-weight: 800;
   letter-spacing: 1px;
   padding: 10px 5px;
-  background-color: #FFF;
+  background-color: #000;
   border-radius: 0;
-  color: #404040;
+  color: #E7E7E7;
 }
 @media only screen and (min-width: 768px) {
   .pager li a {
@@ -614,7 +614,7 @@ footer .theme-by {
 }
 .pager li a:hover,
 .pager li a:focus {
-  color: #FFF;
+  color: #000;
   border: 1px solid {{ site.hover-col }};
   background-color: {{ site.hover-col }};
 }
@@ -645,7 +645,7 @@ table tr {
   padding: 0;
 }
 table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: #5B5B5B;
 }
 table tr th {
   font-weight: bold;
