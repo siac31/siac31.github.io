@@ -1,0 +1,37 @@
+#+OPTIONS: ^:{}
+#+BEGIN_COMMENT
+默认情况不转义 _
+#+END_COMMENT
+#+BEGIN_HTML
+---
+layout: post
+title: "Notes --- Read and Write Files"
+permalink: /:title/
+tagxs: [Data Visualization]
+---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+
+* 文本数据（csv,txt）
+  + [[https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html][read_csv()]] : 加载带分隔符的数据，默认分隔符为逗号
+  + [[https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html][read_table()]] : 加载带分割的数据，默认分隔符为制表符
+
+** Requirements
+安装Pymysql包： conda install pymysql
+
+#+begin_src python -n
+from PIL import Image
+import numpy as np
+im=np.array(Image.open('/path/of/image'))
+print(im.shape,im.dtype)
+
+b=[255,255,255]-im  #灰度变化
+new_im=Image.fromarray(b.astype('uint8'))
+new_im.save('/path/of/changed/image')
+#+end_src
+
+
+* JSON和Excel数据
+* 数据库的读取和存储
