@@ -674,11 +674,13 @@ table tr td :last-child {
 pre {
   font-size: 16px;
   line-height: 1.5em;
-  background-color: #000000
-  color: #FFFFFF
 }
 pre code {
   white-space: pre;
+}
+.org-src-container{
+    background-color: #000000
+    color: #FFFFFF
 }
 pre.highlight, .highlight > pre, td.code pre {
   background-color: #000000;
