@@ -42,13 +42,13 @@ tagxs: [Data Visualization]
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span class="linenr">1: </span><span style="color: #fff59d;">from</span> PIL <span style="color: #fff59d;">import</span> Image
-<span class="linenr">2: </span><span style="color: #fff59d;">import</span> numpy <span style="color: #fff59d;">as</span> np
-<span class="linenr">3: </span><span style="color: #ffcc80;">im</span>=np.array(Image.<span style="color: #ff8A65;">open</span>(<span style="color: #9ccc65;">'/path/of/image'</span>))
-<span class="linenr">4: </span><span style="color: #fff59d;">print</span>(im.shape,im.dtype)
+    <pre class="src src-js" style="color:#FFFFFF; background-color: #000000"><span class="linenr">1: </span>from PIL <span style="color: #fff59d;">import</span> Image
+<span class="linenr">2: </span><span style="color: #fff59d;">import</span> numpy as np
+<span class="linenr">3: </span>im=np.array(Image.open(<span style="color: #9ccc65;">'/path/of/image'</span>))
+<span class="linenr">4: </span>print(im.shape,im.dtype)
 <span class="linenr">5: </span>
-<span class="linenr">6: </span><span style="color: #ffcc80;">b</span>=[255,255,255]-im  <span style="color: #b0bec5;">#</span><span style="color: #b0bec5;">&#28784;&#24230;&#21464;&#21270;</span>
-<span class="linenr">7: </span><span style="color: #ffcc80;">new_im</span>=Image.fromarray(b.astype(<span style="color: #9ccc65;">'uint8'</span>))
+<span class="linenr">6: </span>b=[255,255,255]-im  #&#28784;&#24230;&#21464;&#21270;
+<span class="linenr">7: </span>new_im=Image.fromarray(b.astype(<span style="color: #9ccc65;">'uint8'</span>))
 <span class="linenr">8: </span>new_im.save(<span style="color: #9ccc65;">'/path/of/changed/image'</span>)
 </pre>
 </div>
