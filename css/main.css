@@ -39,6 +39,10 @@ blockquote {
 blockquote p:first-child {
   margin-top: 0;
 }
+div.org-src-container{
+  background-color: #000000
+    color: #FFFFFF
+}
 hr.small {
   max-width: 100px;
   margin: 15px auto;
