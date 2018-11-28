@@ -1,4 +1,3 @@
-#+BEGIN_HTML
 ---
 layout: post
 title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Ideas of Linear Algebra"
@@ -9,8 +8,9 @@ tagxs: [Foundamentals of Machine Learning]
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
 #+END_HTML
-#OPTIONS: tex:t
-#OPTIONS: ^:{}
+
+
+
 * Nonsense (Hhhhh)
 
 #+BEGIN_COMMENT
@@ -24,22 +24,45 @@ If you are or have ever been a student from engineering, you must be very famili
 * Description of Problem
 In order to save memory, it is usually necessary to reduce the dimension of the data, as shown in the two-dimensional space of the following figure. If they are required to compress in one dimension space, that is, a line, how to select this line to make the error of reconstruction smallest? Obviously, u_1 wins. The main task of PCA is like the following:
 
-Suppose we have n data (x_1, x_2,..., x_n) in the R^d space, and the *design matrix X in R^{nxd}*. We want to do some lossy comression to decrease the dimension to d^', meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R^{d^'xd}to project the origin data to a best hyperplane. The data after transformation is represented as 
+Suppose we have n data (x_1, x_2,..., x_n) in the R^d space, and the *design matrix X in R^{nxd}*. We want to do some lossy comression to decrease the dimension to d^', meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R^{d^'xd}to project the origin data to a best hyperplane. The data after transformation is represented as
+
 \begin{equation}
 y_i =L x_i
 \end{equation}
-where y_i in R^{d^'}. 
+
+
+where y_i in R^{d^'}. Let Y in R^{nxd^'}be the design matrix of the output of transformation. The row of Y is transpose of y vector, so we have:
+
+\begin{equation}
+Y = X L^T
+\end{equation}
 
 * Solutions
 Two principles:
  + The projection hyperplane should be as close as possible to the original data, so that the reconstrcution is easier.
  + The projected/transformed data should be as seperate from each other as possible on the hyperplane, which means the data after projection should represent the original data as precisely as possible.
 
+Let's first look at the example in the following figure. Suppose we have 2 features and 3 data.
+[[../img/example_covariance_matrix.jpg]]
+
 The covariance matrix of X is represented as:
+#+begin_export html
+\begin{equation}
+C_x=\frac{1}{n} X^T X
+\end{equation}
+#+end_export
 
 
+The covariance matrix of Y is denoted as:
+\begin{equation}
+C_y=\frac{1}{n} Y^T Y = \frac{1}{n} L X^X L^T = L C_x L^T = M^T c_x M
+\end{equation}
 
-有两种方式去看待和解决这个问题，但最终得到的结果是一样的。多了解一种看问题的方法总是好事。
+So, we should find out the M so that covariance of the features equal 0, and the variance of the features are maximal. which also means that c_y is optimized to be diagonal. If c_y is positive definit, it turns out that the best M has eigenvectors of c_y as its columns. We know that if c_y is *positive definit*, we can always find out the *eigenvectors* of c_y which is *orthognal or orthonormal*. So the final linear transformation for lossy compression is matrix with the d^' eigenvector as rows, which correspond to the *d^' largest eigenvalues*. AN example is shown in the following figure.
 
- + 重构误差最小
- + 协方差推导，降维后，数据相关性最小化
+[[../img/PCAeigenvector.jpg]]
+
+
+ This is easy to understand, suppose we have 3 times 3 matrix A, we can regard the determinant of A as and the volume with three eigenvalues representing the length of 3 edges. So the larger the eigenvalue is, the more the Matrix 'A' is *"stretched"* in that direction.
+
+Besides, the problem is equal to do SDV of matrix X. the sigular value is just the eigenvalue of X^T X.

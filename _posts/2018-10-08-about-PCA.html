@@ -9,19 +9,21 @@
 </ul>
 </div>
 </div>
----
-layout: post
-title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Ideas of Linear Algebra"
-permalink: /:title/
-tagxs: [Foundamentals of Machine Learning]
----
-<head>
-   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-</head>
 <p>
-#OPTIONS: tex:t
-#OPTIONS: ^:{}
+&#x2014;
+layout: post
+title: "Notes of PCA (Principle Component Analysis)&#x2014; Go Through Some Main Ideas of Linear Algebra"
+permalink: <i>:title</i>
+tagxs: [Foundamentals of Machine Learning]
+&#x2014;
+&lt;head&gt;
+   &lt;meta http-equiv="Content-Type" content="text/html;charset=utf-8"&gt;
+&lt;/head&gt;
+#+END<sub>HTML</sub>
 </p>
+
+
+
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> Nonsense (Hhhhh)</h2>
 <div class="outline-text-2" id="text-1">
@@ -44,12 +46,27 @@ If you are or have ever been a student from engineering, you must be very famili
 <h2 id="sec-3"><span class="section-number-2">3</span> Description of Problem</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have m data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>m</sub>) in the R<sup>n</sup> space.
+In order to save memory, it is usually necessary to reduce the dimension of the data, as shown in the two-dimensional space of the following figure. If they are required to compress in one dimension space, that is, a line, how to select this line to make the error of reconstruction smallest? Obviously, u<sub>1</sub> wins. The main task of PCA is like the following:
 </p>
-</div>
-</div>
+
+<p>
+Suppose we have n data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>n</sub>) in the R<sup>d</sup> space, and the <b>design matrix X in R<sup>nxd</sup></b>. We want to do some lossy comression to decrease the dimension to d<sup>'</sup>, meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R<sup>d<sup>'xd</sup></sup>to project the origin data to a best hyperplane. The data after transformation is represented as
+</p>
+
+\begin{equation}
+y_i =L x_i
+\end{equation}
 
 
+<p>
+where y<sub>i</sub> in R<sup>d<sup>'</sup></sup>. Let Y in R<sup>nxd<sup>'</sup></sup>be the design matrix of the output of transformation. The row of Y is transpose of y vector, so we have:
+</p>
+
+\begin{equation}
+Y = X L^T
+\end{equation}
+</div>
+</div>
 
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Solutions</h2>
@@ -58,22 +75,52 @@ If you are or have ever been a student from engineering, you must be very famili
 Two principles:
 </p>
 <ul class="org-ul">
-<li>最近重构：投影平面与元数据尽可能近，重构方便
+<li>The projection hyperplane should be as close as possible to the original data, so that the reconstrcution is easier.
 </li>
-<li>最大可分：在这个平面的投影尽量分开，重构的准确度
+<li>The projected/transformed data should be as seperate from each other as possible on the hyperplane, which means the data after projection should represent the original data as precisely as possible.
 </li>
 </ul>
+
+<p>
+Let's first look at the example in the following figure. Suppose we have 2 features and 3 data.
+<img src="../img/example_covariance_matrix.jpg" alt="example_covariance_matrix.jpg" />
+</p>
+
+<p>
+The covariance matrix of X is represented as:
+</p>
+<div class="export">
+\begin{equation}
+C_x=\frac{1}{n} X^T X
+\end{equation}
+
+</div>
 
 
 <p>
-有两种方式去看待和解决这个问题，但最终得到的结果是一样的。多了解一种看问题的方法总是好事。
+The covariance matrix of Y is denoted as:
+</p>
+\begin{equation}
+C_y=\frac{1}{n} Y^T Y = \frac{1}{n} L X^X L^T = L C_x L^T = M^T c_x M
+\end{equation}
+
+<p>
+So, we should find out the M so that covariance of the features equal 0, and the variance of the features are maximal. which also means that c<sub>y</sub> is optimized to be diagonal. If c<sub>y</sub> is positive definit, it turns out that the best M has eigenvectors of c<sub>y</sub> as its columns. We know that if c<sub>y</sub> is <b>positive definit</b>, we can always find out the <b>eigenvectors</b> of c<sub>y</sub> which is <b>orthognal or orthonormal</b>. So the final linear transformation for lossy compression is matrix with the d<sup>'</sup> eigenvector as rows, which correspond to the <b>d<sup>'</sup> largest eigenvalues</b>. AN example is shown in the following figure.
 </p>
 
-<ul class="org-ul">
-<li>重构误差最小
-</li>
-<li>协方差推导，降维后，数据相关性最小化
-</li>
-</ul>
+
+<div class="figure">
+<p><img src="../img/PCAeigenvector.jpg" alt="PCAeigenvector.jpg" />
+</p>
+</div>
+
+
+<p>
+This is easy to understand, suppose we have 3 times 3 matrix A, we can regard the determinant of A as and the volume with three eigenvalues representing the length of 3 edges. So the larger the eigenvalue is, the more the Matrix 'A' is *"stretched"* in that direction.
+</p>
+
+<p>
+Besides, the problem is equal to do SDV of matrix X. the sigular value is just the eigenvalue of X<sup>T</sup> X.
+</p>
 </div>
 </div>
