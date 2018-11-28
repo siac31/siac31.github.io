@@ -22,14 +22,21 @@ The application of linear algebra in engineering is very extensive and in-depth,
 If you are or have ever been a student from engineering, you must be very familiar with Fourier transformation that can transform a continuous periodic time domain signal to a discrete aperiodic frequency domain signal. Generally, in the time domain, the signal doesn't give us clear enough information, but in the frequency domain, we can find which frequencies own the relative higher amplitudes and then rank them. PCA is just like this (but not the same, PCA does lossy compression), it tries to find the principle components of the given data. that usually requires a new interpretation of the original data.
 
 * Description of Problem
-为了节约内存，通常需要有损降低数据的表示维度，如下图的二维空间的点，他们如果被要求压缩在一维空间，也就是一条线上，如何选择这跳线，能够使重构回二维平面的数据点与原始数据点的误差最小？ 显然是u1。因为当投影到这个线上，所有点的Suppose we have m data (x_1, x_2,..., x_m) in the R^n space.
+In order to save memory, it is usually necessary to reduce the dimension of the data, as shown in the two-dimensional space of the following figure. If they are required to compress in one dimension space, that is, a line, how to select this line to make the error of reconstruction smallest? Obviously, u_1 wins. The main task of PCA is like the following:
 
-
+Suppose we have n data (x_1, x_2,..., x_n) in the R^d space, and the *design matrix X in R^{nxd}*. We want to do some lossy comression to decrease the dimension to d^', meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R^{d^'xd}to project the origin data to a best hyperplane. The data after transformation is represented as 
+\begin{equation}
+y_i =L x_i
+\end{equation}
+where y_i in R^{d^'}. 
 
 * Solutions
 Two principles:
- + 最近重构：投影平面与元数据尽可能近，重构方便
- + 最大可分：在这个平面的投影尽量分开，重构的准确度
+ + The projection hyperplane should be as close as possible to the original data, so that the reconstrcution is easier.
+ + The projected/transformed data should be as seperate from each other as possible on the hyperplane, which means the data after projection should represent the original data as precisely as possible.
+
+The covariance matrix of X is represented as:
+
 
 
 有两种方式去看待和解决这个问题，但最终得到的结果是一样的。多了解一种看问题的方法总是好事。
