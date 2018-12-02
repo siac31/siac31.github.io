@@ -9,12 +9,15 @@
 </ul>
 </div>
 </div>
----
+<p>
+&#x2014;
 layout: post
-title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Ideas of Linear Algebra"
-permalink: /:title/
-tagxs: [Foundamentals of Machine Learning]
----
+title: "Notes of PCA (Principle Component Analysis)&#x2014; Go Through Some Main Ideas of Linear Algebra"
+permalink: <i>:title</i>
+category: Machine Learning
+tags: [Machine Learning]
+&#x2014;
+</p>
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
@@ -50,9 +53,10 @@ In order to save memory, it is usually necessary to reduce the dimension of the 
 Suppose we have n data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>n</sub>) in the R<sup>d</sup> space, and the <b>design matrix X in R<sup>nxd</sup></b>. We want to do some lossy comression to decrease the dimension to d<sup>'</sup>, meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R<sup>d<sup>'xd</sup></sup>to project the origin data to a best hyperplane. The data after transformation is represented as
 </p>
 
-<p>
-\( y_i =L x_i \)
-</p>
+\begin{equation}
+y_i =L x_i
+\end{equation}
+
 
 <p>
 where y<sub>i</sub> in R<sup>d<sup>'</sup></sup>. Let Y in R<sup>nxd<sup>'</sup></sup>be the design matrix of the output of transformation. The row of Y is transpose of y vector, so we have:

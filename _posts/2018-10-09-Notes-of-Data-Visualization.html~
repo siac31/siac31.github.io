@@ -879,5 +879,16 @@ Returns the <b>sorted unique elements</b> of an array. There are <b>three option
 <li><a href="../pandas.html">notes 2</a>
 </li>
 </ul>
+
+<p>
+重要知识点总结：
+<img src="../img/SeriesDataFrame.PNG" alt="SeriesDataFrame.PNG" />
+</p>
+
+
+<div class="figure">
+<p><img src="../img/pandas-data-analysis.png" alt="pandas-data-analysis.png" />
+</p>
+</div>
 </div>
 </div>

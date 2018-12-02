@@ -7,7 +7,8 @@
 layout: post
 title: "Notes --- Tools of Data Visualization"
 permalink: /:title/
-tagxs: [Data Visualization]
+category: Data Visualization
+tags: [Numpy, Pandas, Python, Data Visualization, Data Analysis]
 ---
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">

@@ -5,16 +5,16 @@ permalink: /:title/
 tagxs: [WeChat]
 ---
 <div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Introduction</a></li>
-<li><a href="#sec-2">2. Code Structure</a></li>
-<li><a href="#sec-3">3. Time-based Background Image</a>
-<ul>
-<li><a href="#sec-3-1">3.1. Configuration of index.wxml</a></li>
-<li><a href="#sec-3-2">3.2. Configuration of app.wxss</a></li>
-<li><a href="#sec-3-3">3.3. Configuration of index.js</a></li>
+    <h2>Table of Contents</h2>
+    <div id="text-table-of-contents">
+	<ul>
+	    <li><a href="#sec-1">1. Introduction</a></li>
+	    <li><a href="#sec-2">2. Code Structure</a></li>
+	    <li><a href="#sec-3">3. Time-based Background Image</a>
+		<ul>
+		    <li><a href="#sec-3-1">3.1. Configuration of index.wxml</a></li>
+		    <li><a href="#sec-3-2">3.2. Configuration of app.wxss</a></li>
+		    <li><a href="#sec-3-3">3.3. Configuration of index.js</a></li>
 </ul>
 </li>
 </ul>

@@ -3,7 +3,8 @@
 layout: post
 title: "Notes of WeChat Applet"
 permalink: /:title/
-tagxs: [WeChat]
+category: Funny Stuff
+tags: [WeChat]
 ---
 #+END_HTML
 * Introduction
