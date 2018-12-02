@@ -31,8 +31,6 @@ navbar-links:
     - GitHub Pages: "https://pages.github.com/"
     - Understanding Feature Engineering (Part 1) — Continuous Numeric Data: "https://towardsdatascience.com/understanding-feature-engineering-part-1-continuous-numeric-data-da4e47099a7b"
     - Understanding Feature Engineering (Part 2) — Categorical Data: "https://towardsdatascience.com/understanding-feature-engineering-part-2-categorical-data-f54324193e63"
-  Tags: "/tags.html"
-  Category: "/category.html"
   Author's home: "siac31.github.io"
 
 
