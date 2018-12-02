@@ -1,0 +1,68 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "Vocabs"
+permalink: /:title/
+tags: [Hi Language]
+---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+* A
+accountable:
+  + Accountable/responsible to victims/citizens
+
+arduous:
+  + an arduous journey
+  + She comes by way of an arduous journey.
+* B
+
+* C
+camaraderie:
+  + I appreciate the camaraderie.
+  + a genuine camaraderie on the hockey team
+  + The last few days and nights are a good indication of team spirit and camaraderie among the teams.
+
+condone:
+  + accept and allow (behavior that is considered morally wrong or offensive) to continue
+  + They can't publicly condone piracy.
+* D
+* E
+* F
+* G
+* H
+* I
+ implication
+  + suggest something without saying it directly
+  + the action or state of being involved in something.
+* J
+* K
+* L
+ legitimate
+  + allowed by law
+  + a legitimate job
+* M
+* N
+* O
+* P
+piracy:
+ + the practice of attacking and robbing ships at sea.
+ + the practive of illegally copying a computer program, music, a film, etc.
+ + Fighting piracy is likely to be a longand drawn put battle.
+
+
+predecessor:
+  + a person who held a job or office before the current holder
+  + My administration is different from my predecessor.
+* Q
+* R
+* S
+shareware
+* T
+* U
+* V
+* W
+* X
+* Y
+* Z
