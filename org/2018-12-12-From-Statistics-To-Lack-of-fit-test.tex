@@ -1,0 +1,93 @@
+% Created 2018-12-12 Mi 22:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\author{Xinrui Hu}
+\date{\today}
+\title{2018-12-12-From-Statistics-To-Lack-of-fit-test}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.3.2 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Background}
+\label{sec-1}
+According to Alan Turing, a system, which probably looks pretty complicate, can be described with simple mathmatical equation. In machine learning domain, the models can be usually interpreted with equations, and the parameters of "equations" is what we want to learn. Usually, the parameter we finally get is an estimator of the real value. But how do we describe how good the estimator is?
+
+\section{Bias and Variance}
+\label{sec-2}
+
+Let's start with the \textbf{Estimator.}
+
+The parameter is a quantity of a real model e.g. the mean or the variance of random variable, the parameter of a probability distribution, etc. An estimator, according to \href{https://en.wikipedia.org/wiki/Estimator}{Wikipedia} is a rule for calculating an estimate of parameter based on observed data. Because the estimator is calculated by a function of observed data, so the estimator is itself also random variable. (This concept is also the main idea of Bayesian Model in machine learning).
+
+Suppose we want to know a paramter $\theta$, which can be estimated by a sample set $D_{S}$ drawn from $X$. $\hat{\theta}_S(X)$ is denoted as the estimator of $\theta$ based on observed data of random variable $X$. Let's denote $x$ as a particular obseved data $X=x$. Sampling is an approximation of the real world. So it could happen that for some reasons the sample set doesn't represent the real issuse very well. There are some important quantified properties which are helpful before we dive deeper.
+
+\subsection{Sampling Deviation}
+\label{sec-2-1}
+For a given sample $X=x$, the sampling deviation is denoted as:
+\begin{equation}
+d(x) = \hat{\theta}_S(x)-E(\hat{\theta}_S(X)) = \hat{\theta}_S(x) - E(\hat{\theta})
+\end{equation}
+where $E(\hat{\theta})$ is the expected value of the estimator. As mentioned, the estimator is itself a random variable.
+\subsection{Estimator Bias}
+\label{sec-2-2}
+We randomly itteratively sample several times. Each time we give an estimate of $\theta$. The bias then can be denoted as:
+\begin{equation}
+Bias(\hat{\theta}) = E(\hat{\theta})-\theta = E(\hat(\theta)-\theta) =E(error)
+\end{equation}
+The distance btw. expected value of $\theta$ and the real theta being estimated. Bias can describe how far the average of estimates be off-target.
+\subsection{Estimator Variance}
+\label{sec-2-3}
+The expected value of the squared sampling deviation:
+\begin{equation}
+Var(\hat{\theta}) = E(\sqrt((\hat{\theta} - E(\hat{\theta}))))
+\end{equation}
+It describes the scatterness or clusterness of the estimates.
+
+\subsection{Mean Square Error}
+\label{sec-2-4}
+The expected value of the squared error:
+\begin{equation}
+MSE(\hat{\theta}) = E[\sqrt((\hat{\theta}(X)-\theta))]
+\end{equation}
+
+It is proven that $MSE=\sqrt(Bias) + Var$
+
+
+
+
+
+
+\section{*Estimator Variance}
+\label{sec-3}
+measures how “scatter” our estimator is to sampling, e.g. if we observe the stock price every 100ms instead of every 10ms would the estimator change a lot?
+
+In statistics and machine learning, the \textbf{bias–variance tradeoff} is the property of a set of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples, and vice versa. Ideally, we hope to simultaneously minimize these two sources of error. However, the all-known delimma is that we can't get the "whole" data at all. In oder to optimal the performance we have to consider the trade-off btw. bias and variance. Firsty, what do they actually mean? According to \href{https://en.wikipedia.org/wiki/Bias\%E2\%80\%93variance_tradeoff}{Wikipedia}:
+
+\begin{quote}
+\begin{itemize}
+\item \textbf{Bias} is an error from erroneous assumptions in the learning algorithm. High bias can cause an algorithm to miss the relevant relations between features and target outputs (underfitting).
+\item \textbf{Variance} is an error from sensitivity to small fluctuations in the training set. High variance can cause an algorithm to model the random noise in the training data, rather than the intended outputs(overfitting)
+\end{itemize}
+\end{quote}
+% Emacs 25.3.2 (Org mode 8.2.10)
+\end{document}

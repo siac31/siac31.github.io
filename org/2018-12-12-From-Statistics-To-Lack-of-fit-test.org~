@@ -1,0 +1,84 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "From Statistics to Lack of Fit Test"
+permalink: /:title/
+category: Machine Learning
+tags: [Machine Learning, Statistical Learning, Feature Engineering]
+---
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+	 inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+	 displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+	 processEscapes: true
+     },
+     "HTML-CSS": { fonts: ["TeX"] }
+ });
+</script>
+<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
+</script>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+
+* Background
+According to Alan Turing, a system, which probably looks pretty complicate, can be described with simple mathmatical equation. In machine learning domain, the models can be usually interpreted with equations, and the parameters of "equations" is what we want to learn. Usually, the parameter we finally get is an estimator of the real value. But how do we describe how good the estimator is?
+
+* Bias and Variance
+
+Let's start with the *Estimator.*
+
+The parameter is a quantity of a real model e.g. the mean or the variance of random variable, the parameter of a probability distribution, etc. An estimator, according to [[https://en.wikipedia.org/wiki/Estimator][Wikipedia]] is a rule for calculating an estimate of parameter based on observed data. Because the estimator is calculated by a function of observed data, so the estimator is itself also random variable. (This concept is also the main idea of Bayesian Model in machine learning).
+
+Suppose we want to know a paramter $\theta$, which can be estimated by a sample set $D_{S}$ drawn from $X$. $\hat{\theta}_S(X)$ is denoted as the estimator of $\theta$ based on observed data of random variable $X$. Let's denote $x$ as a particular obseved data $X=x$. Sampling is an approximation of the real world. So it could happen that for some reasons the sample set doesn't represent the real issuse very well. There are some important quantified properties which are helpful before we dive deeper.
+
+** Sampling Deviation
+For a given sample $X=x$, the sampling deviation is denoted as:
+\begin{equation}
+d(x) = \hat{\theta}_S(x)-E(\hat{\theta}_S(X)) = \hat{\theta}_S(x) - E(\hat{\theta})
+\end{equation}
+where $E(\hat{\theta})$ is the expected value of the estimator. As mentioned, the estimator is itself a random variable.
+** Estimator Bias
+We randomly itteratively sample several times. Each time we give an estimate of \theta. The bias then can be denoted as:
+\begin{equation}
+Bias(\hat{\theta}) = E(\hat{\theta})-\theta = E(\hat(\theta)-\theta) =E(error)
+\end{equation}
+The distance btw. expected value of \theta and the real theta being estimated. Bias can describe how far the average of estimates be off-target.
+** Estimator Variance
+The expected value of the squared sampling deviation:
+\begin{equation}
+Var(\hat{\theta}) = E((\hat{\theta} - E(\hat{\theta}))^2)
+\end{equation}
+It describes the scatterness or clusterness of the estimates.
+
+** Mean Square Error
+The expected value of the squared error:
+\begin{equation}
+MSE(\hat{\theta}) = E[(\hat{\theta}(X)-\theta)^2]
+\end{equation}
+
+The relationship mean squared error = variance + square of bias, namely $MSE(\hat(\theta))=(Bias(\hat(\theta)))^2 + Var(\hat(\theta))$ can be proven easily. Just do remember the $\hat{\tehta}$ is also a random variable!
+
+Proof:
+\begin{align*}
+MSE(\hat(\theta)) = fsgd
+\end{align*}
+
+
+
+
+
+
+* *Estimator Variance
+ measures how 'scatter' our estimator is to sampling, e.g. if we observe the stock price every 100ms instead of every 10ms would the estimator change a lot?
+
+In statistics and machine learning, the *bias – variance tradeoff* is the property of a set of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples, and vice versa. Ideally, we hope to simultaneously minimize these two sources of error. However, the all-known delimma is that we can't get the "whole" data at all. In oder to optimal the performance we have to consider the trade-off btw. bias and variance. Firsty, what do they actually mean? According to [[https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff][Wikipedia]]:
+
+#+BEGIN_QUOTE
+ + *Bias* is an error from erroneous assumptions in the learning algorithm. High bias can cause an algorithm to miss the relevant relations between features and target outputs (underfitting).
+ + *Variance* is an error from sensitivity to small fluctuations in the training set. High variance can cause an algorithm to model the random noise in the training data, rather than the intended outputs(overfitting)
+#+END_QUOTE

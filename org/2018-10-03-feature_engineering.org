@@ -1,0 +1,105 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "Feauture Engineering"
+permalink: /:title/
+category: Machine Learning
+tags: [Machine Learning, Statistical Learning, Feature Engineering]
+---
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+	 inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+	 displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+	 processEscapes: true
+     },
+     "HTML-CSS": { fonts: ["TeX"] }
+ });
+</script>
+<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
+</script>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+
+* feature selection
+In machine learning and statistics, feature selection, also known as variable selection, attribute selection or variable subset selection, is the process of selecting a subset of relevant features (variables, predictors) for use in model construction. Feature selection techniques are used for four reasons:
+
+  + simplification of models to make them easier to interpret by researchers/users,[1]
+  + shorter training times,
+  + to avoid the curse of dimensionality,
+  + enhanced generalization by reducing overfitting[2] (formally, reduction of variance[1])
+
+A feature selection algorithm can be seen as the combination of a search technique for proposing new feature subsets, along with an evaluation measure which scores the different feature subsets. The simplest algorithm is to test each possible subset of features finding the one which minimizes the error rate. This is an exhaustive search of the space, and is computationally intractable for all but the smallest of feature sets. The choice of evaluation metric heavily influences the algorithm, and it is these evaluation metrics which distinguish between the three main categories of feature selection algorithms: wrappers, filters and embedded methods.[3]
+
+  + *Wrapper methods* use a predictive model to *score feature subsets*. Each *new subset* is used to *train a model*, which is *tested* on a *hold-out set*. *Counting the number of mistakes* made on that hold-out set (the error rate of the model) gives the score for that subset. As wrapper methods train a new model for each subset, they are very *computationally intensive*, but *usually* provide the *best performing feature set* for that particular type of model.
+
+  + *Filter methods* use a *proxy measure* instead of the error rate to score a feature subset. This measure is chosen to be *fast to compute*, while still capturing the usefulness of the feature set. Common measures include the *mutual information*,[3] the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information][pointwise mutual information]],[4] [[https://en.wikipedia.org/wiki/Pearson_correlation_coefficient][Pearson product-moment correlation coefficient]], [[https://en.wikipedia.org/wiki/Relief_(feature_selection)][Relief-based algorithms]],[5] and *inter/intra class distance* or the *scores of significance tests* for each class/feature combinations.[4][6] Filters are usually *less computationally intensive* than wrappers, but they produce a feature set which is not tuned to a specific type of predictive model.[7] This *lack of tuning* means a feature set from a filter is more general than the set from a wrapper, usually giving *lower prediction performance* than a wrapper. However the feature set *doesn't contain the assumptions of a prediction model*, and so is *more useful for exposing the relationships between the features*. Many filters provide a *feature ranking* rather than an explicit best feature subset, and the *cut off point in the ranking* is chosen *via cross-validation*. Filter methods have also been* used as a preprocessing step for wrapper methods*, allowing a wrapper to be used on larger problems. One other popular approach is the *Recursive Feature Elimination algorithm*, commonly used with *SVM* to *repeatedly construct* a model and remove features with low weights.
+
+  + *Embedded methods* are a catch-all group of techniques which perform feature selection as part of the model construction process(*e.g. objective function with regularization*). The exemplar of this approach is the LASSO method for constructing a linear model, which penalizes the regression coefficients with an L1 penalty, shrinking many of them to zero. Any features which have non-zero regression coefficients are 'selected' by the LASSO algorithm. Improvements to the LASSO include Bolasso which bootstraps samples,;[8] Elastic net regularization, which combines the L1 penalty of LASSO with the L2 penalty of Ridge Regression; and FeaLect which scores all the features based on combinatorial analysis of regression coefficients.[9] These approaches tend to be between filters and wrappers in terms of computational complexity.
+
+** Filter Methode
+*** Mutual Information and pointwise Mutual Information
+*** Pearson product-moment correlation coefficient
+*** Relief-based algorithm
+Take a data set with n instances of p features, belonging to two known classes. Within the data set, each feature should be scaled to the interval $[0 1]$ (binary data should remain as 0 and 1). The algorithm will be repeated m times. Start with a p-long weight vector ($W$) of zeros.
+
+At each iteration, take the feature vector ($X$) belonging to one random instance, and the feature vectors of the instance closest to $X$ (by Euclidean distance) from each class. The closest same-class instance is called 'near-hit', and the closest different-class instance is called 'near-miss'. Update the weight vector such that
+\begin{equation}
+W_i = W_i-\sqrt((x_i-nearHit_i))+ \sqrt((x_i-nearMiss_i))
+\end{equation}
+
+*** F-test and Multual Information
+[[https://scikit-learn.org/stable/auto_examples/feature_selection/plot_f_test_vs_mi.html][Comparison of F-test and mutual information]]
+Consider an objective function as below:
+\begin{equation}
+y = x_1 + sin(6  \pi x_2) + 0.1  x_3
+\end{equation}
+where $x_3~N(0, 1)$
+
+As F-test captures only linear dependency, it rates x_1 as the most discriminative feature. On the other hand, mutual information can capture any kind of dependency between variables and it rates x_2 as the most discriminative feature, which probably agrees better with our intuitive perception for this example. Both methods correctly marks x_3 as irrelevant.
+
+* Feature Weighting
+
+
+* Some Other Related Concepts
+** [[https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares][Lack-of-Fit Sum of Squares]]
+Def.: One of the components of a partition of the *sum of squares of residuals*, the other one is *pure-error sum of squares*.
+
+sum of squares due to error = (sum of squares due to "pure" error) + (sum of squares due to lack of fit).
+
+The sum of squares due to "pure" error is the sum of squares of the differences between each observed y-value and the average of all y-values corresponding to the same x-value.
+
+The sum of squares due to lack of fit is the weighted sum of squares of differences between each average of y-values corresponding to the same x-value and the corresponding fitted y-value, the weight in each case being simply the number of observed y-values for that x-value.[1][2] Because it is a property of least squares regression that the vector whose components are "pure errors" and the vector of lack-of-fit components are orthogonal to each other, the following equality holds:
+
+Consider fitting a line with one predictor variable. Define $i$ as an index of each of the $n$ distinct $x$ values, $j$ as an index of the response variable observations for a given $x$ value, and $n_i$ as the number of $y$ values associated with the $i_{th}$ $x$ value. The value $y_{ij}$ of each response variable observation can be represented by
+\begin{equation}
+y_{ij} = \alpha x_i +\beta +\varepsilon_{ij}
+\end{equation}
+
+A regression model exhibits lack-of-fit when it fails to adequately describe the functional relationship between the experimental factors and the response variable. Lack-of-fit can occur if important terms from the model such as interactions or quadratic terms are not included. It can also occur if several, unusually large residuals result from fitting the model.
+
+If you think about it, there are two different explanations for why our data points might not fall right on the estimated regression line. One possibility is that our regression model doesn't describe the trend in the data well enough. That is, the model may exhibit "lack of fit." The second possibility is that, as is often the case, there is just random variation in the data. This realization suggests that we should decompose the error into two components — one part due to lack of fit of the model and the second part just due to random error. If most of the error is due to lack of fit, and not just random error, it suggests that we should scrap our model and try a different one.
+
+* Footnotes
+
+[1] Gareth James; Daniela Witten; Trevor Hastie; Robert Tibshirani (2013). An Introduction to Statistical Learning. Springer. p. 204.
+
+[2]  Bermingham, Mairead L.; Pong-Wong, Ricardo; Spiliopoulou, Athina; Hayward, Caroline; Rudan, Igor; Campbell, Harry; Wright, Alan F.; Wilson, James F.; Agakov, Felix; Navarro, Pau; Haley, Chris S. (2015). "Application of high-dimensional feature selection: evaluation for genomic prediction in man".
+
+[3] Guyon, Isabelle; Elisseeff, Andre (2003). "An Introduction to Variable and Feature Selection". JMLR. 3
+
+[4] Yang, Yiming; Pedersen, Jan O. (1997). A comparative study on feature selection in text categorization
+
+[5] Urbanowicz, Ryan J.; Meeker, Melissa; LaCava, William; Olson, Randal S.; Moore, Jason H. (2017-11-22). "Relief-Based Feature Selection: Introduction and Review". arXiv:1711.08421 [cs.DS].
+
+[6] Forman, George (2003). "An extensive empirical study of feature selection metrics for text classification". Journal of Machine Learning Research. 3: 1289–1305.
+
+[7] Yishi Zhang; Shujuan Li; Teng Wang; Zigang Zhang (2013). "Divergence-based feature selection for separate classes". Neurocomputing. 101 (4): 32–42.
+
+[8] Bach, Francis R (2008). Bolasso: model consistent lasso estimation through the bootstrap. Proceedings of the 25th International Conference on Machine Learning. pp. 33–40.
+
+[9] Zare, Habil (2013). "Scoring relevancy of features based on combinatorial analysis of Lasso with application to lymphoma diagnosis". BMC Genomics. 14: S14.

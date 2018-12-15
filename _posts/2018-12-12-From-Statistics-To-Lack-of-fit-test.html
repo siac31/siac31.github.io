@@ -1,0 +1,341 @@
+---
+layout: post
+title: "From Statistics to Lack of Fit Test"
+permalink: /:title/
+category: Machine Learning
+tags: [Machine Learning, Statistical Learning, Feature Engineering]
+---
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+         processEscapes: true
+     },
+     "HTML-CSS": { fonts: ["TeX"] }
+ });
+</script>
+<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
+</script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Background</a></li>
+<li><a href="#sec-2">2. Bias and Variance</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Sampling Deviation</a></li>
+<li><a href="#sec-2-2">2.2. Estimator Bias</a></li>
+<li><a href="#sec-2-3">2.3. Estimator Variance and Standard Error (SE)</a></li>
+<li><a href="#sec-2-4">2.4. Mean Square Error</a></li>
+<li><a href="#sec-2-5">2.5. Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Bias and Variance in Fitting Model</a></li>
+<li><a href="#sec-4">4. The Coefficient of Determination, r-squared</a></li>
+<li><a href="#sec-5">5. Lack-of-Fit Test</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Background</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+According to Alan Turing, a system, which probably looks pretty complicate, can be described with simple mathmatical equation. In machine learning domain, the models can be usually interpreted with equations, and the parameters of "equations" is what we want to learn. Usually, the parameter we finally get is an estimator of the real value. But how do we describe how good the estimator is?
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Bias and Variance</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Let's start with the <b>Estimator.</b>
+</p>
+
+<p>
+The parameter is a quantity of a real model e.g. the mean or the variance of random variable, the parameter of a probability distribution, etc. An estimator, according to <a href="https://en.wikipedia.org/wiki/Estimator">Wikipedia</a> is a rule for calculating an estimate of parameter based on observed data. Because the estimator is calculated by a function of observed data, so the estimator is itself also random variable. (This concept is also the main idea of Bayesian Model in machine learning).
+</p>
+
+<p>
+Suppose we want to know a paramter \(\theta\), which can be estimated by a sample set \(D_{S}\) drawn from \(X\). \(\hat{\theta}_S(X)\) is denoted as the estimator of \(\theta\) based on observed data of random variable \(X\). Let's denote \(x\) as a particular obseved data \(X=x\). Sampling is an approximation of the real world. So it could happen that for some reasons the sample set doesn't represent the real issuse very well. There are some important quantified properties which are helpful before we dive deeper.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Sampling Deviation</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+For a given sample \(X=x\), the sampling deviation is denoted as:
+</p>
+\begin{equation}
+d(x) = \hat{\theta}_S(x)-E(\hat{\theta}_S(X)) = \hat{\theta}_S(x) - E(\hat{\theta})
+\end{equation}
+<p>
+where \(E(\hat{\theta})\) is the expected value of the estimator. As mentioned, the estimator is itself a random variable.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Estimator Bias</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+We randomly itteratively sample several times. Each time we give an estimate of &theta;. The bias then can be denoted as:
+</p>
+\begin{equation}
+Bias(\hat{\theta}) = E(\hat{\theta})-\theta = E(\hat(\theta)-\theta) =E(error)
+\end{equation}
+<p>
+The distance btw. expected value of &theta; and the real theta being estimated. Bias can describe how far the average of estimates be off-target. We hope the estimator has a lower bias.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Estimator Variance and Standard Error (SE)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The expected value of the squared sampling deviation:
+</p>
+\begin{equation}
+Var(\hat{\theta}) = E[(\hat{\theta} - E[\hat{\theta}])^2]
+\end{equation}
+<p>
+It describes how the estimator varies. SE is the square root of variance. We also hope the estimator has a lower variance.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Mean Square Error</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+The expected value of the squared error:
+</p>
+\begin{equation}
+MSE(\hat{\theta}) = E[(\hat{\theta}(X)-\theta)^2]
+\end{equation}
+
+<p>
+The relationship mean squared error = variance + square of bias, namely \(MSE(\hat(\theta))=(Bias(\hat(\theta)))^2 + Var(\hat(\theta))\) can be proven easily. Just do remember the &theta; is also a random variable!
+</p>
+
+<p>
+Proof:
+</p>
+\begin{align*}
+MSE(\hat(\theta)) &= E[(\hat{\theta}-\theta)^2] = E[\hat{\theta}^2] - 2E[\hat{\theta}]\theta +\theta^2  \\
+Bias^2 &= (E[\hat{\theta}]-\theta)^2 = E^2[\hat{\theta}] +\theta^2 - 2E[\hat{\theta}]\theta \\
+Var &= E[(\hat{\theta} - E[\hat{\theta}])^2] = E[\hat{\theta}^2] -2E^2[\hat{\theta}] + E^2[\hat{\theta}] = E[\hat{\theta}^2] -E^2[\hat{\theta}]\\
+MSE &= Bias^2 +Var
+\end{align*}
+
+<p>
+We can see that, for an unbiased estimator, the variance equals the mean square error.
+</p>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Suppose there is a distribution with &mu; as the mean and &sigma; as the variance. We will rarely know the true variance and mean. The best we can do is estimate them! In <a href="https://www.amazon.com/dp/0262035618/ref=cm_sw_r_cp_ep_dp_H9qizbMRCN9JX">chapter 5 of Deep Learning</a>, the author proves the unbiased estimators of mean and variance of Gaussian distribution \(X~N(\mu,\sigma^2)\).
+</p>
+
+<ul class="org-ul">
+<li>The unbiased mean estimator is denoted as
+</li>
+</ul>
+\begin{equation}
+\hat{\mu} =\frac{1}{N} \sum_{i=1}^{N} x_i
+\end{equation}
+
+<ul class="org-ul">
+<li>The unbiased variance is denoted as
+</li>
+</ul>
+\begin{equation}
+\hat{\sigma^2} =\frac{1}{N-1} \sum_{i=1}^{N} (x_i - \hat{\mu})^2
+\end{equation}
+
+<p>
+There is another way to explain why the denominator divides the sum by N-1 rather than N. The following is what I quote from <a href="https://onlinecourses.science.psu.edu/stat501/node/254/">here</a>, but edited to suit our case.
+</p>
+
+<blockquote>
+<p>
+What we would really like is for the numerator to add up, in squared units, how far each observed value is from the unknown realization mean &mu;. But, we don't know the real mean &mu;, so we estimate it with the average value. Doing so <b>costs us one degree of freedom</b>. That is, we have to divide by N-1, and not N, because we estimated the unknown real mean &mu;.
+</p>
+</blockquote>
+
+
+<p>
+What's the variance of the unbiased sample mean \(var(\hat{\mu})\). It turns out that:
+</p>
+\begin{equation}
+var(\hat{\mu}) =\frac{\sigma}{N}
+\end{equation}
+<p>
+If N goes large enough, variance tends to be zero.
+</p>
+
+<p>
+Notice that the square root of unbiased sample variance is however biased from the real standard error &sigma;. As long as N is large enough, it will still approximate real &sigma; very well.
+</p>
+
+<p>
+With SE and central limit theorem we can find that the average value as mean estimator will tend to obey Gaussian distribution. So we can use SE to find the confidential interval. If we have two machine learning algorithm, we can find the upper bounds of \(95%\) confidential intervals, of course the algorithm with lower upper bound wins(the interval is more narrow)!!
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Bias and Variance in Fitting Model</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+What hint can we get from bias and variance of estimator when doing model fitting? Suppose we have a model \(f(x)\) in the real world, due to the noise we get caught into the delimma that we never observe the real \(f(x)\) given an \(x\), but the noisy data \(y=f(x)+\epsilon\). Following the workflow of regression we should first of all find a function family to fit the model. suppose we come up with polynomial \(p_N(x)=a_0+a_1x+ a_2x^2+...+a_Nx^N\). Training, testing&#x2026; How good performance will we finally get?
+</p>
+
+<p>
+To find out the real model precisely is difficult, two main probelems exist as the following figure shows.
+<img src="../img/function_function_family.png" alt="function_function_family.png" />
+</p>
+<ul class="org-ul">
+<li>Suppose \(f(x)\) is the real model. The function family we choose, e.g. like the polynomial family, may not  include the \(f(x)\). This may be caused by lack of domain knowledge or so on.
+</li>
+<li>We may not even get the best approaximation \(\hat{f}_{best}(x)\) out of the chosen functioon family. This can blame on not good enough sampling, overfitting, underfitting and so on.
+</li>
+</ul>
+
+<p>
+How do we assess the prediction performance? So suppose we finally choose \(p(x)\) as the prediction function. Noted that the prediction function is based on the data, so the prediction function is random variable. If we repeatedly and independently sample data several times, we get different \(g(x)\). The expected value of \(p(x)\) is \(E[p(x)]\). There are some parameters to be introduced:
+</p>
+
+<ul class="org-ul">
+<li>The variance can be denoted as \(Var = E[(p(x)-E[p(x)])^2]\).
+</li>
+<li>The bias is \(Bias = E[p(x)] - f(x)\).
+</li>
+<li>The prediction error is \(E[(p(x)-y)^2]\), i.e. the mean square of error btw. the predicted value and observed value.
+</li>
+<li>The expected value of \(y\) supposed to be \(f(x)\) if the noise is with zero expected value. (E.g.zero-mean Gaussian noise)
+</li>
+<li>If the noise is unbiased, \(\sigma^2\) quantifies how much the responses \(y\) vary around the (unknown) mean regression line(the real model) \(f(x)\).
+</li>
+</ul>
+
+<p>
+Fed with these concepts, we can actually compare them with the former chapter on estimator bias and variance and MSE. Try to replace &theta; with y, \(\hat{\theta}\) with \(p(x)\), and \(E[\hat{\theta}]\) with \(E[p(x)]\), then you can find the relationship.
+</p>
+
+<p>
+///The bias of prediction function is caused by lack-of-fit. It could be either underfitting or overfitting.
+</p>
+
+<p>
+Let's explore the underlying relationship.
+A given observed \((x^*,y^*)\) pair is drawn due to \(y^*=f(x^*) + \epsilon\). For a given set of pbserved data pairs, the expected prediction error is \(E[(p(x^*)-y^*)^2]\). We expand it as:
+</p>
+
+\begin{align*}
+E[(p(x^*)-y^*)^2] &= E[p^2(x^*)] - 2E[p(x^*)y^*] + E[{y^*}^2] \\
+                   &= E[p^2(x^*)] - 2E[p(x^*)]f(x^*) + E[{y^*}^2]
+\end{align*}
+
+<p>
+Sincce:
+</p>
+
+\begin{align*}
+E[p^2(x^*)] &= E[(p(x^*) - E[(p(x^*)])^2] +E^2[p(x^*)] \\
+E[{y^*}^2]  &= E[(y*-E[y^*])^2] +E^2[y^*] = E[(y*-f(x^*))^2] +f^2(x^*)
+\end{align*}
+
+<p>
+So finnally we can form the expected prediction error as:
+</p>
+\begin{align*}
+E[(p(x^*)-y^*)^2] &= E[(p(x^*) - E[(p(x^*)])^2] +E^2[p(x^*] - 2E[p(x^*)]f(x^*) + E[(y^*-f(x^*))^2] +f^2(x^*)\\
+                  &= E[(p(x^*) - E[(p(x^*)])^2] + E[(y^*-f(x^*))^2] + E^2[p(x^*] -2E[p(x^*)]f(x^*)+f^2(x^*)\\
+                  &= E[(p(x^*) - E[(p(x^*)])^2] + E[(y^*-f(x^*))^2] + (E[p(x^*)]-f(x^*))^2
+\end{align*}
+
+<div class="center">
+<p>
+expected prediction error = variance of the estimator + noise + square of bias of the estimator
+</p>
+</div>
+
+<p>
+Notice that whatever effort we make, we can't eliminate the noise term of the error.
+</p>
+
+<p>
+You may heard of the term <a href="https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares">"lack-of-fit sum of squares</a>". There exists a relationship that the residual sum of squares can be decomposed into two components: lack-of-fit sum of squares and sum of squares of the differences between each observed \(y\)-value and the average of all y-values corresponding to the same \(x\)-value.
+</p>
+
+<p>
+If you compare it carefully with the relationship mentioned above, you can find that the lack-of-fit dependens on the bias estimator and the noise. As said before, the noise is our delimma, however we do can improve our learning algorithm to minimize the bias estimator. Also I quote some figures to intuitively explain the variance estimator and bias estimator.
+</p>
+
+<p>
+The following figures are cited from <a href="https://theclevermachine.wordpress.com/tag/bias-variance-decomposition/">Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff</a>
+</p>
+
+<p>
+The real model is \(f(x)=sin(\pi x)\)
+The real world with noise is \(y= f(x)+ N(0,\sigma^2)\)
+Using the polynomials with \(N=1\), \(N=3\), and \(N=10\) seperately fit the observed data. The data are independently sampled 50 times and for each \(N\) there are 50 prediction functions. The first figure shows us that the model can't capture the real features of the data. It is sensible neither to the real model nor to the noise. So we can see that the variance of those 50 lines is low. But the bias is high. So this is a typical case of underfitting. The third figure in the contrast, capture the real features and and also the noise we don't want. It is sensible not only to the real model but also to the noise. This time, however, we can see that the variance of those 50 lines is low. That's because it regards the noise as a feature, this is a typical case of overfitting. The best is the second figure. As we can see, it has relative lower bias and lower variance. The noise doesn't misguide our model.
+</p>
+
+<p>
+So the trade-off is actually very parently. If we use a complex model with too much parameters, the model works well on the training data to lower the residules down. However, it may work very bad on test data, cause the model we get represents not only the real model but also the noise. It's not generalized. The bias may be very low but the variance goes too high. If the model is too simple, with not enough parameters, it probably doesn't capture the real features of the real model. So the bias may be very high in spite of lower variance.
+</p>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> The Coefficient of Determination, r-squared</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://onlinecourses.science.psu.edu/stat501/node/255/">the reference</a>
+Test if the feature is correlated to the respond y
+There are two alternative methods for testing whether a linear association exists between the predictor x and the response y in a simple linear regression model, y=&beta;<sub>0</sub>+&beta;<sub>1x</sub> +&epsilon;
+</p>
+
+\begin{equation}
+H_0: \beta_1=0 vs. H_1: \beta_1 \neq 0
+\end{equation}
+
+<ul class="org-ul">
+<li><b>t-test for the slope</b>
+</li>
+<li><b>analysis of variance (ANOVA) F-test</b>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Lack-of-Fit Test</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The former example using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. In statistics, a lack-of-fit test is any of many tests of a null hypothesis that a proposed statistical model fits well.
+</p>
+</div>
+</div>
