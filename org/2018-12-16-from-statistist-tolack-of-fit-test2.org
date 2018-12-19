@@ -1,0 +1,48 @@
+#+BEGIN_HTML
+---
+layout: post
+title: "From Statistics to Lack of Fit Test (2)"
+permalink: /:title/
+category: Machine Learning
+tags: [Machine Learning, Statistical Learning, Feature Engineering]
+---
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+	 inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+	 displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+	 processEscapes: true
+     },
+     "HTML-CSS": { fonts: ["TeX"] }
+ });
+</script>
+<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
+</script>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+
+Refer to the [[../_posts/2018-12-12-From-Statistics-To-Lack-of-fit-test.html][former blog]].
+
+
+Recall the example of using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. We want to know if the feature is related to the outputs.
+
+In statistics, a lack-of-fit test is any of many tests of a null hypothesis that a proposed statistical model fits well.
+
+* Decomposing the Error
+
+Again, suppose there is a real model $f(x)$, and we get the prediction function based on the data points drawn from $y=f(x)+\N(0,\sigma^2)$. Suppose the noise is normally distributed and at each single value of $x$ we have the same \sigma without drift. For every single value of $x_i$ we may actually get several different responses $y_{ij}$, where $i \in [1,2,..C]$ and $j \in [1,2,..N_i]$. $N_i$ is the number of the responses corresponding to $x_i$, $C$ is the number of distinct $x$ in the data set.
+According to [[https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares][wikipedia]].
+
+We break down the residual error ("error sum of squares" — denoted SSE) into two components:
+        a component that is due to lack of model fit ("lack of fit sum of squares" — denoted SSLF)
+        a component that is due to pure random error ("pure error sum of squares" — denoted SSPE)
+    If the lack of fit sum of squares is a large component of the residual error, it suggests that a linear function is inadequate.
+
+
+* Reference
+1. [[https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares][Lack of fit sum of squares]]
+2. [[https://onlinecourses.science.psu.edu/stat501/node/2/][Online-Course of Eberly College of Science]]

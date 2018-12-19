@@ -9,18 +9,36 @@
 <li><a href="#sec-2-2">2.2. Estimator Bias</a></li>
 <li><a href="#sec-2-3">2.3. Estimator Variance and Standard Error (SE)</a></li>
 <li><a href="#sec-2-4">2.4. Mean Square Error</a></li>
-<li><a href="#sec-2-5">2.5. Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</a></li>
+<li><a href="#sec-2-5">2.5. Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</a>
+<ul>
+<li><a href="#sec-2-5-1">2.5.1. Supplement</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Bias and Variance in Fitting Model</a></li>
-<li><a href="#sec-4">4. The Coefficient of Determination, r-squared</a></li>
-<li><a href="#sec-5">5. Lack-of-Fit Test</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Bias and Variance in Fitting Model</a>
+<ul>
+<li><a href="#sec-3-1">3.1. The Degree of Freedom in Fitting Model</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. The Coefficient of Determination, r-squared</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Concepts that I don't want to mix up.</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1. Linear Association?</a></li>
+<li><a href="#sec-4-1-2">4.1.2. Prediction of The Response on \(x\)</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-2">4.2. R-squared</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Reference</a></li>
 </ul>
 </div>
 </div>
 ---
 layout: post
-title: "From Statistics to Lack of Fit Test"
+title: "From Statistics to Lack of Fit Test (1)"
 permalink: /:title/
 category: Machine Learning
 tags: [Machine Learning, Statistical Learning, Feature Engineering]
@@ -97,7 +115,7 @@ The distance btw. expected value of &theta; and the real theta being estimated. 
 </div>
 </div>
 <div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Estimator Variance and Standard Error (SE)</h3>
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Estimator Variance and Standard Error (SE)<a id="SV" name="SV"></a></h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 The expected value of the squared sampling deviation:
@@ -197,8 +215,19 @@ Notice that the square root of unbiased sample variance is however biased from t
 With SE and central limit theorem we can find that the average value as mean estimator will tend to obey Gaussian distribution. So we can use SE to find the confidential interval. If we have two machine learning algorithm, we can find the upper bounds of \(95%\) confidential intervals, of course the algorithm with lower upper bound wins(the interval is more narrow)!!
 </p>
 </div>
+
+<div id="outline-container-sec-2-5-1" class="outline-4">
+<h4 id="sec-2-5-1"><span class="section-number-4">2.5.1</span> Supplement</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+Since I already mention the degree of freedom DF, see more about DF in the <a href="#DF">following chapter</a>.
+</p>
 </div>
 </div>
+</div>
+</div>
+
+
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> Bias and Variance in Fitting Model</h2>
 <div class="outline-text-2" id="text-3">
@@ -208,8 +237,14 @@ What hint can we get from bias and variance of estimator when doing model fittin
 
 <p>
 To find out the real model precisely is difficult, two main probelems exist as the following figure shows.
-<img src="../img/function_function_family.png" alt="function_function_family.png" />
 </p>
+
+
+<div class="figure">
+<p><img src="../img/function_function_family.png" alt="function_function_family.png" />
+</p>
+</div>
+
 <ul class="org-ul">
 <li>Suppose \(f(x)\) is the real model. The function family we choose, e.g. like the polynomial family, may not  include the \(f(x)\). This may be caused by lack of domain knowledge or so on.
 </li>
@@ -253,7 +288,7 @@ E[(p(x^*)-y^*)^2] &= E[p^2(x^*)] - 2E[p(x^*)y^*] + E[{y^*}^2] \\
 \end{align*}
 
 <p>
-Sincce:
+Since:
 </p>
 
 \begin{align*}
@@ -262,7 +297,7 @@ E[{y^*}^2]  &= E[(y*-E[y^*])^2] +E^2[y^*] = E[(y*-f(x^*))^2] +f^2(x^*)
 \end{align*}
 
 <p>
-So finnally we can form the expected prediction error as:
+So finally we can form the expected prediction error as:
 </p>
 \begin{align*}
 E[(p(x^*)-y^*)^2] &= E[(p(x^*) - E[(p(x^*)])^2] +E^2[p(x^*] - 2E[p(x^*)]f(x^*) + E[(y^*-f(x^*))^2] +f^2(x^*)\\
@@ -292,7 +327,22 @@ If you compare it carefully with the relationship mentioned above, you can find 
 The following figures are cited from <a href="https://theclevermachine.wordpress.com/tag/bias-variance-decomposition/">Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff</a>
 </p>
 
+
+<div class="figure">
+<p><img src="../img/bias-variance-simulation1.png" alt="bias-variance-simulation1.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="../img/bias-variance-simulation3.png" alt="bias-variance-simulation3.png" />
+</p>
+</div>
+
 <p>
+<a href="../img/bias-variance-simulation10.png
+">../img/bias-variance-simulation10.png
+</a>
 The real model is \(f(x)=sin(\pi x)\)
 The real world with noise is \(y= f(x)+ N(0,\sigma^2)\)
 Using the polynomials with \(N=1\), \(N=3\), and \(N=10\) seperately fit the observed data. The data are independently sampled 50 times and for each \(N\) there are 50 prediction functions. The first figure shows us that the model can't capture the real features of the data. It is sensible neither to the real model nor to the noise. So we can see that the variance of those 50 lines is low. But the bias is high. So this is a typical case of underfitting. The third figure in the contrast, capture the real features and and also the noise we don't want. It is sensible not only to the real model but also to the noise. This time, however, we can see that the variance of those 50 lines is low. That's because it regards the noise as a feature, this is a typical case of overfitting. The best is the second figure. As we can see, it has relative lower bias and lower variance. The noise doesn't misguide our model.
@@ -301,6 +351,39 @@ Using the polynomials with \(N=1\), \(N=3\), and \(N=10\) seperately fit the obs
 <p>
 So the trade-off is actually very parently. If we use a complex model with too much parameters, the model works well on the training data to lower the residules down. However, it may work very bad on test data, cause the model we get represents not only the real model but also the noise. It's not generalized. The bias may be very low but the variance goes too high. If the model is too simple, with not enough parameters, it probably doesn't capture the real features of the real model. So the bias may be very high in spite of lower variance.
 </p>
+</div>
+
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <a id="DF" name="DF"></a>The Degree of Freedom in Fitting Model</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Well, suppose the real model is \(f(x) = b_0+b_1x\), and the prediction function we get based on the data points drawn from \(y=f(x)+\N(0,\sigma^2)\) is \(\hat{y}=\beta_0+\beta_1x=\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift.
+</p>
+
+<p>
+We can estimate \(\sigma^2\) in two ways.
+</p>
+
+<ol class="org-ol">
+<li>Sample Variance \(S\). It's nothing new but what I explained in <a href="#SV">chapter 2</a>. We just have to think of it in a situation of fitting model. It tells how far each response \(y_i\) is from the unknown mean. We estimate it with the average value of all \(y\). Doing so "costs us one degree of freedom". That is, we have to divide by \(N-1\) rather than \(N\).
+</li>
+</ol>
+
+\begin{equation}
+S=\frac{\sum_{i=1}^{N}(y_i-y_{ave})^2}{N-1} = \frac{SSTO}{N-1}
+\end{equation}
+
+
+<ol class="org-ol">
+<li>Mean Square Error MSE. Instead of the average value of all \(y\). This time we use the predicted value of each reponse, since we assume that the &sigma; doesn't drift at each value of \(x\). By using \(\hat{y_i}\), we must estimate two parameters \(b_0\) and \(b_1\) using all data. So we lose two degrees of freedom. The denominator is therefore \(N-2\)
+</li>
+</ol>
+
+\begin{equation}
+MSE=\frac{\sum_{i=1}^{N}(y_i-\hat{y_i})^2}{N-2} = \frac{SSE}{N-2}
+\end{equation}
+</div>
 </div>
 </div>
 
@@ -328,15 +411,117 @@ H_0: \beta_1=0 vs. H_1: \beta_1 \neq 0
 </li>
 </ul>
 </div>
+
+
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Concepts that I don't want to mix up.</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> Linear Association?</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Given a set of pairs \((x_i,y_i)\) (N pairs), figure out if there is linear association btw. \(y\) and \(x\) (if \(\beta_1 = 0\)). \(y_ave\) is the average of all \(y_i\), represents a line with no slope in \(x-y\) plane, it supports \(H_0\). \(\hat{y_i}\) is the predicted value, it supports \(H_1\). We have SSTO = SSE+SSR.
+</p>
+
+<ul class="org-ul">
+<li>total sum of square: SSTO, \(N-1\) <b>degree of freedom</b>. Because it is the numerator of the unbiased sample variance, and the denominator of the unbiased samole variance is \(N-1\).
+</li>
+</ul>
+\begin{equation}
+SSTO = \sum (y_i-y_{ave})^2
+\end{equation}
+
+<ul class="org-ul">
+<li>error sum of square: SSE, \(N-2\), <b>degree of feedom</b>. As explained <a href="#DF">above</a>, it is the numerator of the MSE.
+</li>
+</ul>
+\begin{equation}
+SSE = \sum (y_i-\hat{y_i})^2
+\end{equation}
+
+<ul class="org-ul">
+<li>regression sum of square: SSR, \(1\) <b>degree of freedom</b>. Since we have SSR = SSTO-SSE
+</li>
+</ul>
+\begin{equation}
+SSR = \sum (\hat{y_i}-y_{ave})^2
+\end{equation}
+
+<p>
+If SSR is large, it suggests that a linear association btw. \(x\) and \(y\)
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> Prediction of The Response on \(x\)</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+For every single \(x\), we have:
+expected prediction error = variance of the estimator + square of bias of the estimator + noise
+</p>
+
+\begin{align*}
+E[(p(x^*)-y^*)^2] =& E[(p(x^*) - E[p(x^*)])^2] + \\
+                   & E[(y^*-f(x^*))^2] + (E[p(x^*)]-f(x^*))^2
+\end{align*}
+
+<p>
+We can write it with similar notation as SSTO, SSE, SSR.
+</p>
+\begin{align*}
+E[(\hat{u_i}-y_i)^2] =& E[(\hat{y_i} - E[\hat{y_i}])^2] + \\
+                   & E[(y_i-f(x_i))^2] + (E[\hat{y_i}]-f(x_i))^2
+\end{align*}
+<p>
+, where \(f(x_i)\) is the response according to the real underlying model \(f\)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> R-squared</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+\(r^2\) is alsp called coefficient of determination or r-squared value.
+</p>
+
+\begin{equation}
+r^2 = \frac{SSR}{SSTO} = 1-\frac{SSE}{SSTO} \,  \in[0,1]
+\end{equation}
+
+<p>
+Interpretation:
+</p>
+<div class="center">
+<ul class="org-ul">
+<li>\(r^2 = 1\): SSR=SSTO, \(y_i=\hat{y_i}\) The observed value lie on the regression line.
+</li>
+<li>\(r^2 = 0\): \(\hat{y_i}=y_{ave}\), regression line equals to the average line. \(x\) is independent on \(y\).
+</li>
+<li>\(otherwise\): \(100r^2\%\) of the variation in y is explained by the variation in predictor \(y\). Feature \(x\) is meaningful to prediction of \(y\).
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 
 
-
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Lack-of-Fit Test</h2>
+<h2 id="sec-5"><span class="section-number-2">5</span> Reference</h2>
 <div class="outline-text-2" id="text-5">
-<p>
-The former example using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. In statistics, a lack-of-fit test is any of many tests of a null hypothesis that a proposed statistical model fits well.
-</p>
+<ol class="org-ol">
+<li><a href="https://onlinecourses.science.psu.edu/stat501/node/2/">Online-Course of Eberly College of Science</a>
+</li>
+<li><a href="https://theclevermachine.wordpress.com/tag/bias-variance-decomposition/">Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff</a>
+</li>
+<li><a href="https://towardsdatascience.com/mse-and-bias-variance-decomposition-77449dd2ff55">MSE and Bias-Variance decomposition</a>
+</li>
+<li><a href="https://www.amazon.com/dp/0262035618/ref=cm_sw_r_cp_ep_dp_H9qizbMRCN9JX">Deep Learning (Adaptive Computation and Machine Learning series)</a>
+</li>
+</ol>
 </div>
 </div>

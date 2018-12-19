@@ -1,7 +1,7 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: "From Statistics to Lack of Fit Test"
+title: "From Statistics to Lack of Fit Test (1)"
 permalink: /:title/
 category: Machine Learning
 tags: [Machine Learning, Statistical Learning, Feature Engineering]
@@ -48,7 +48,7 @@ We randomly itteratively sample several times. Each time we give an estimate of 
 Bias(\hat{\theta}) = E(\hat{\theta})-\theta = E(\hat(\theta)-\theta) =E(error)
 \end{equation}
 The distance btw. expected value of \theta and the real theta being estimated. Bias can describe how far the average of estimates be off-target. We hope the estimator has a lower bias.
-** Estimator Variance and Standard Error (SE)
+** Estimator Variance and Standard Error (SE)<<SV>>
 The expected value of the squared sampling deviation:
 \begin{equation}
 Var(\hat{\theta}) = E[(\hat{\theta} - E[\hat{\theta}])^2]
@@ -107,11 +107,18 @@ If N goes large enough, variance tends to be zero.
 Notice that the square root of unbiased sample variance is however biased from the real standard error \sigma. As long as N is large enough, it will still approximate real \sigma very well.
 
 With SE and central limit theorem we can find that the average value as mean estimator will tend to obey Gaussian distribution. So we can use SE to find the confidential interval. If we have two machine learning algorithm, we can find the upper bounds of $95%$ confidential intervals, of course the algorithm with lower upper bound wins(the interval is more narrow)!!
+
+*** Supplement
+Since I already mention the degree of freedom DF, see more about DF in the [[DF][following chapter]].
+
+
 * Bias and Variance in Fitting Model
 What hint can we get from bias and variance of estimator when doing model fitting? Suppose we have a model $f(x)$ in the real world, due to the noise we get caught into the delimma that we never observe the real $f(x)$ given an $x$, but the noisy data $y=f(x)+\epsilon$. Following the workflow of regression we should first of all find a function family to fit the model. suppose we come up with polynomial $p_N(x)=a_0+a_1x+ a_2x^2+...+a_Nx^N$. Training, testing... How good performance will we finally get?
 
 To find out the real model precisely is difficult, two main probelems exist as the following figure shows.
+
 [[../img/function_function_family.png]]
+
 + Suppose $f(x)$ is the real model. The function family we choose, e.g. like the polynomial family, may not  include the $f(x)$. This may be caused by lack of domain knowledge or so on.
 + We may not even get the best approaximation $\hat{f}_{best}(x)$ out of the chosen functioon family. This can blame on not good enough sampling, overfitting, underfitting and so on.
 
@@ -135,14 +142,14 @@ E[(p(x^*)-y^*)^2] &= E[p^2(x^*)] - 2E[p(x^*)y^*] + E[{y^*}^2] \\
                    &= E[p^2(x^*)] - 2E[p(x^*)]f(x^*) + E[{y^*}^2]
 \end{align*}
 
-Sincce:
+Since:
 
 \begin{align*}
 E[p^2(x^*)] &= E[(p(x^*) - E[(p(x^*)])^2] +E^2[p(x^*)] \\
 E[{y^*}^2]  &= E[(y*-E[y^*])^2] +E^2[y^*] = E[(y*-f(x^*))^2] +f^2(x^*)
 \end{align*}
 
-So finnally we can form the expected prediction error as:
+So finally we can form the expected prediction error as:
 \begin{align*}
 E[(p(x^*)-y^*)^2] &= E[(p(x^*) - E[(p(x^*)])^2] +E^2[p(x^*] - 2E[p(x^*)]f(x^*) + E[(y^*-f(x^*))^2] +f^2(x^*)\\
                   &= E[(p(x^*) - E[(p(x^*)])^2] + E[(y^*-f(x^*))^2] + E^2[p(x^*] -2E[p(x^*)]f(x^*)+f^2(x^*)\\
@@ -161,29 +168,159 @@ If you compare it carefully with the relationship mentioned above, you can find 
 
 The following figures are cited from [[https://theclevermachine.wordpress.com/tag/bias-variance-decomposition/][Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff]]
 
+[[../img/bias-variance-simulation1.png]]
+
+[[../img/bias-variance-simulation3.png]]
+
+[[../img/bias-variance-simulation10.png
+]]
 The real model is $f(x)=sin(\pi x)$
 The real world with noise is $y= f(x)+ N(0,\sigma^2)$
 Using the polynomials with $N=1$, $N=3$, and $N=10$ seperately fit the observed data. The data are independently sampled 50 times and for each $N$ there are 50 prediction functions. The first figure shows us that the model can't capture the real features of the data. It is sensible neither to the real model nor to the noise. So we can see that the variance of those 50 lines is low. But the bias is high. So this is a typical case of underfitting. The third figure in the contrast, capture the real features and and also the noise we don't want. It is sensible not only to the real model but also to the noise. This time, however, we can see that the variance of those 50 lines is low. That's because it regards the noise as a feature, this is a typical case of overfitting. The best is the second figure. As we can see, it has relative lower bias and lower variance. The noise doesn't misguide our model.
 
 So the trade-off is actually very parently. If we use a complex model with too much parameters, the model works well on the training data to lower the residules down. However, it may work very bad on test data, cause the model we get represents not only the real model but also the noise. It's not generalized. The bias may be very low but the variance goes too high. If the model is too simple, with not enough parameters, it probably doesn't capture the real features of the real model. So the bias may be very high in spite of lower variance.
 
+** SSTO, SSE, SSR
+Well, suppose the real model is $f(x) = b_0+b_1x$, and the prediction function we get based on the data points drawn from $y=f(x)+\N(0,\sigma^2)$ is $\hat{y}=\beta_0+\beta_1x=$. Suppose the noise is normally distributed and at each single value of $x$ we have the same \sigma without drift. There are 3 concepts.
+
+1. total sum of square: SSTO, $N-1$ *degree of freedom*. Because it is the numerator of the unbiased sample variance, and the denominator of the unbiased samole variance is $N-1$.
+\begin{equation}
+SSTO = \sum (y_i-y_{ave})^2
+\end{equation}
+
+2. error sum of square: SSE, $N-2$, *degree of feedom*. As explained [[DF][above]], it is the numerator of the MSE.
+\begin{equation}
+SSE = \sum (y_i-\hat{y_i})^2
+\end{equation}
+
+3. regression sum of square: SSR, $1$ *degree of freedom*. Since we have SSR = SSTO-SSE
+\begin{equation}
+SSR = \sum (\hat{y_i}-y_{ave})^2
+\end{equation}
+
+** <<DF>>The Degree of Freedom in Fitting Model
+
+Now we can estimate $\sigma^2$ in two ways.
+
++ Sample Variance $S$. It's nothing new but what I explained in [[SV][chapter 2]]. We just have to think of it in a situation of fitting model. It tells how far each response $y_i$ is from the unknown mean. We estimate it with the average value of all $y$. Doing so "costs us one degree of freedom". That is, we have to divide by $N-1$ rather than $N$.
+
+\begin{equation}
+S=\frac{\sum_{i=1}^{N}(y_i-y_{ave})^2}{N-1} = \frac{SSTO}{N-1}
+\end{equation}
 
 
++ Mean Square Error MSE. Instead of the average value of all $y$. This time we use the predicted value of each reponse, since we assume that the \sigma doesn't drift at each value of $x$. By using $\hat{y_i}$, we must estimate two parameters $b_0$ and $b_1$ using all data. So we lose two degrees of freedom. The denominator is therefore $N-2$
 
+\begin{equation}
+MSE=\frac{\sum_{i=1}^{N}(y_i-\hat{y_i})^2}{N-2} = \frac{SSE}{N-2}
+\end{equation}
+
+So far, you might find the relationship btw. the two items and SSTO, SSE. There are actually another thing should be mentioned.
++ Regression Mean Square (MSR)
+\begin{equation}
+MSR=\frac{\sum_{i=1}^{N}(y_{ave}-\hat{y_i})^2}{1} = \frac{SSE}{1}
+\end{equation}
+
+It turns out that:
+\begin{align*}
+E[MSR] &= \sigama^2 +b_1^2\sum_{i=1}^{N} (X_i-X_{ave})^2 \\
+E[MSE] &=\sigma^2
+\end{align*}
 
 * The Coefficient of Determination, r-squared
 [[https://onlinecourses.science.psu.edu/stat501/node/255/][the reference]]
 Test if the feature is correlated to the respond y
-There are two alternative methods for testing whether a linear association exists between the predictor x and the response y in a simple linear regression model, y=\beta_0+\beta_1x +\epsilon
+There are two alternative methods for testing whether a linear association exists between the predictor x and the response y in a simple linear regression model, y=b_0+b_1x +\epsilon
 
 \begin{equation}
-H_0: \beta_1=0 vs. H_1: \beta_1 \neq 0
+H_0: b_1=0 vs. H_1: b_1 \neq 0
 \end{equation}
 
  + *t-test for the slope*
  + *analysis of variance (ANOVA) F-test*
 
+** R-squared and t-test
+$r^2$ is alsp called coefficient of determination or r-squared value.
+
+\begin{equation}
+r^2 = \frac{SSR}{SSTO} = 1-\frac{SSE}{SSTO} \,  \in[0,1]
+\end{equation}
+
+Interpretation:
+#+BEGIN_CENTER
++ $r^2 = 1$: SSR=SSTO, $y_i=\hat{y_i}$ The observed value lie on the regression line.
++ $r^2 = 0$: $\hat{y_i}=y_{ave}$, regression line equals to the average line. $x$ is independent on $y$.
++ $otherwise$: $100r^2\%$ of the variation in y is explained by the variation in predictor $y$. Feature $x$ is meaningful to prediction of $y$.
+#+END_CENTER
+
+** F-test
+According to the expected value of MSE and MSR, we can test $H_0$ versus $H_1$
+
+    If $b_1$, then we'd expect the ratio MSR/MSE to equal 1.
+    If $b_1 \neq 0$, then we'd expect the ratio MSR/MSE to be greater than 1.
+
+According to the [[Hypothesistest][WorkFlow]], we can write down the test statistics as $F^*=\frac{MSR}{MSE}$.
+
+At last using P-value, significant level, and F-distribution to test if we should reject $H_0$
+
+* Workflow of Hypothesis Test<<Hypothesistest>>
+Firstly, specify the null $H_0$ and alternative hypotheses $H_1$ or $H_A$.
+
+Secondly, calculate the value of the test statistic according to the methode you use.
+
+At last, use the resulting test statistic to calculate the P-value.
+
+The p-value is a measure of the strength of the evidence and even extremer eveidence against the null hypothesis. It means that, if $H_0$ is true, how likely will the observed value and even greater value appear.
+
+#+BEGIN_CENTER
++ If the P-value is smaller than the significance level \alpha, we reject the null hypothesis in favor of the alternative. We conclude "there is sufficient evidence at the \alpha level to prove $H_0$ is false" The gap btw. the significance level and p-level reflects how significant $H_0$ is possibly false.
+
++ If the P-value is larger than the significance level \alpha, we fail to reject the null hypothesis. We conclude "there is not enough evidence at the α level to prove $H_0$ is false."
+#+END_CENTER
+
+By the way, the test statistic could be t-statistic, representing t-test, and F-statistic, representing F-test. These two methode are common used.
+
+* Concepts that I don't want to mix up.
+Once again, I list these concepts together.
+*** Linear Association?
+Given a set of pairs $(x_i,y_i)$ (N pairs), figure out if there is linear association btw. $y$ and $x$ (if $\beta_1 = 0$). $y_ave$ is the average of all $y_i$, represents a line with no slope in $x-y$ plane, it supports $H_0$. $\hat{y_i}$ is the predicted value, it supports $H_1$. We have SSTO = SSE+SSR.
+
++ total sum of square: SSTO, $N-1$ *degree of freedom*. Because it is the numerator of the unbiased sample variance, and the denominator of the unbiased samole variance is $N-1$.
+\begin{equation}
+SSTO = \sum (y_i-y_{ave})^2
+\end{equation}
+
++ error sum of square: SSE, $N-2$, *degree of feedom*. As explained [[DF][above]], it is the numerator of the MSE.
+\begin{equation}
+SSE = \sum (y_i-\hat{y_i})^2
+\end{equation}
+
++ regression sum of square: SSR, $1$ *degree of freedom*. Since we have SSR = SSTO-SSE
+\begin{equation}
+SSR = \sum (\hat{y_i}-y_{ave})^2
+\end{equation}
+
+If SSR is large, it suggests that a linear association btw. $x$ and $y$
+
+*** Prediction of The Response on $x$
+For every single $x$, we have:
+expected prediction error = variance of the estimator + square of bias of the estimator + noise
+
+\begin{align*}
+E[(p(x^*)-y^*)^2] =& E[(p(x^*) - E[p(x^*)])^2] + \\
+                   & E[(y^*-f(x^*))^2] + (E[p(x^*)]-f(x^*))^2
+\end{align*}
+
+We can write it with similar notation as SSTO, SSE, SSR.
+\begin{align*}
+E[(\hat{u_i}-y_i)^2] =& E[(\hat{y_i} - E[\hat{y_i}])^2] + \\
+                   & E[(y_i-f(x_i))^2] + (E[\hat{y_i}]-f(x_i))^2
+\end{align*}
+, where $f(x_i)$ is the response according to the real underlying model $f$
 
 
-* Lack-of-Fit Test
-The former example using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. In statistics, a lack-of-fit test is any of many tests of a null hypothesis that a proposed statistical model fits well.
+* Reference
+1. [[https://onlinecourses.science.psu.edu/stat501/node/2/][Online-Course of Eberly College of Science]]
+2. [[https://theclevermachine.wordpress.com/tag/bias-variance-decomposition/][Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff]]
+3. [[https://towardsdatascience.com/mse-and-bias-variance-decomposition-77449dd2ff55][MSE and Bias-Variance decomposition]]
+4. [[https://www.amazon.com/dp/0262035618/ref=cm_sw_r_cp_ep_dp_H9qizbMRCN9JX][Deep Learning (Adaptive Computation and Machine Learning series)]]
