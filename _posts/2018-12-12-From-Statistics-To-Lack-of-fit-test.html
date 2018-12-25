@@ -22,6 +22,7 @@ tags: [Machine Learning, Statistical Learning, Feature Engineering]
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -279,9 +280,6 @@ How do we assess the prediction performance? So suppose we finally choose \(p(x)
 Fed with these concepts, we can actually compare them with the former chapter on estimator bias and variance and MSE. Try to replace &theta; with y, \(\hat{\theta}\) with \(p(x)\), and \(E[\hat{\theta}]\) with \(E[p(x)]\), then you can find the relationship.
 </p>
 
-<p>
-///The bias of prediction function is caused by lack-of-fit. It could be either underfitting or overfitting.
-</p>
 
 <p>
 Let's explore the underlying relationship.
@@ -345,10 +343,13 @@ The following figures are cited from <a href="https://theclevermachine.wordpress
 </p>
 </div>
 
+
+<div class="figure">
+<p><img src="../img/bias-variance-simulation10.png" alt="bias-variance-simulation10.png" />
+</p>
+</div>
+
 <p>
-<a href="../img/bias-variance-simulation10.png
-">../img/bias-variance-simulation10.png
-</a>
 The real model is \(f(x)=sin(\pi x)\)
 The real world with noise is \(y= f(x)+ N(0,\sigma^2)\)
 Using the polynomials with \(N=1\), \(N=3\), and \(N=10\) seperately fit the observed data. The data are independently sampled 50 times and for each \(N\) there are 50 prediction functions. The first figure shows us that the model can't capture the real features of the data. It is sensible neither to the real model nor to the noise. So we can see that the variance of those 50 lines is low. But the bias is high. So this is a typical case of underfitting. The third figure in the contrast, capture the real features and and also the noise we don't want. It is sensible not only to the real model but also to the noise. This time, however, we can see that the variance of those 50 lines is low. That's because it regards the noise as a feature, this is a typical case of overfitting. The best is the second figure. As we can see, it has relative lower bias and lower variance. The noise doesn't misguide our model.
@@ -363,7 +364,7 @@ So the trade-off is actually very parently. If we use a complex model with too m
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> SSTO, SSE, SSR</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-Well, suppose the real model is \(f(x) = b_0+b_1x\), and the prediction function we get based on the data points drawn from \(y=f(x)+\N(0,\sigma^2)\) is \(\hat{y}=\beta_0+\beta_1x=\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift. There are 3 concepts.
+Well, suppose the real model is \(f(x) = b_0+b_1x\), and the prediction function we get based on the data points drawn from \(y=f(x)+\mathbb{N}(0,\sigma^2)\) is \(\hat{y}=\beta_0+\beta_1x=\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift. There are 3 concepts.
 </p>
 
 <ol class="org-ol">
@@ -433,7 +434,7 @@ MSR=\frac{\sum_{i=1}^{N}(y_{ave}-\hat{y_i})^2}{1} = \frac{SSE}{1}
 It turns out that:
 </p>
 \begin{align*}
-E[MSR] &= \sigama^2 +b_1^2\sum_{i=1}^{N} (X_i-X_{ave})^2 \\
+E[MSR] &= \sigma^2 +b_1^2\sum_{i=1}^{N} (X_i-X_{ave})^2 \\
 E[MSE] &=\sigma^2
 \end{align*}
 </div>

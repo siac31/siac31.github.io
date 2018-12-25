@@ -1,41 +1,3 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Background</a></li>
-<li><a href="#sec-2">2. Bias and Variance</a>
-<ul>
-<li><a href="#sec-2-1">2.1. Sampling Deviation</a></li>
-<li><a href="#sec-2-2">2.2. Estimator Bias</a></li>
-<li><a href="#sec-2-3">2.3. Estimator Variance and Standard Error (SE)</a></li>
-<li><a href="#sec-2-4">2.4. Mean Square Error</a></li>
-<li><a href="#sec-2-5">2.5. Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</a>
-<ul>
-<li><a href="#sec-2-5-1">2.5.1. Supplement</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#sec-3">3. Bias and Variance in Fitting Model</a>
-<ul>
-<li><a href="#sec-3-1">3.1. The Degree of Freedom in Fitting Model</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">4. The Coefficient of Determination, r-squared</a>
-<ul>
-<li><a href="#sec-4-1">4.1. Concepts that I don't want to mix up.</a>
-<ul>
-<li><a href="#sec-4-1-1">4.1.1. Linear Association?</a></li>
-<li><a href="#sec-4-1-2">4.1.2. Prediction of The Response on \(x\)</a></li>
-</ul>
-</li>
-<li><a href="#sec-4-2">4.2. R-squared</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">5. Reference</a></li>
-</ul>
-</div>
-</div>
 ---
 layout: post
 title: "From Statistics to Lack of Fit Test (1)"
@@ -58,9 +20,53 @@ tags: [Machine Learning, Statistical Learning, Feature Engineering]
 <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
 </script>
 <head>
-   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
-
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Background</a></li>
+<li><a href="#sec-2">2. Bias and Variance</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Sampling Deviation</a></li>
+<li><a href="#sec-2-2">2.2. Estimator Bias</a></li>
+<li><a href="#sec-2-3">2.3. Estimator Variance and Standard Error (SE)</a></li>
+<li><a href="#sec-2-4">2.4. Mean Square Error</a></li>
+<li><a href="#sec-2-5">2.5. Example: Estimate Mean and Variance (Unbiased Sample Mean and Unbiased Sample Variance)</a>
+<ul>
+<li><a href="#sec-2-5-1">2.5.1. Supplement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Bias and Variance in Fitting Model</a>
+<ul>
+<li><a href="#sec-3-1">3.1. SSTO, SSE, SSR</a></li>
+<li><a href="#sec-3-2">3.2. The Degree of Freedom in Fitting Model</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. The Coefficient of Determination, r-squared</a>
+<ul>
+<li><a href="#sec-4-1">4.1. R-squared and t-test</a></li>
+<li><a href="#sec-4-2">4.2. F-test</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Workflow of Hypothesis Test</a></li>
+<li><a href="#sec-6">6. Concepts that I don't want to mix up.</a>
+<ul>
+<li>
+<ul>
+<li><a href="#sec-6-0-1">6.0.1. Linear Association?</a></li>
+<li><a href="#sec-6-0-2">6.0.2. Prediction of The Response on \(x\)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-7">7. Reference</a></li>
+</ul>
+</div>
+</div>
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> Background</h2>
 <div class="outline-text-2" id="text-1">
@@ -353,43 +359,86 @@ So the trade-off is actually very parently. If we use a complex model with too m
 </p>
 </div>
 
-
 <div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <a id="DF" name="DF"></a>The Degree of Freedom in Fitting Model</h3>
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> SSTO, SSE, SSR</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-Well, suppose the real model is \(f(x) = b_0+b_1x\), and the prediction function we get based on the data points drawn from \(y=f(x)+\N(0,\sigma^2)\) is \(\hat{y}=\beta_0+\beta_1x=\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift.
-</p>
-
-<p>
-We can estimate \(\sigma^2\) in two ways.
+Well, suppose the real model is \(f(x) = b_0+b_1x\), and the prediction function we get based on the data points drawn from \(y=f(x)+\N(0,\sigma^2)\) is \(\hat{y}=\beta_0+\beta_1x=\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift. There are 3 concepts.
 </p>
 
 <ol class="org-ol">
-<li>Sample Variance \(S\). It's nothing new but what I explained in <a href="#SV">chapter 2</a>. We just have to think of it in a situation of fitting model. It tells how far each response \(y_i\) is from the unknown mean. We estimate it with the average value of all \(y\). Doing so "costs us one degree of freedom". That is, we have to divide by \(N-1\) rather than \(N\).
+<li>total sum of square: SSTO, \(N-1\) <b>degree of freedom</b>. Because it is the numerator of the unbiased sample variance, and the denominator of the unbiased samole variance is \(N-1\).
 </li>
 </ol>
+\begin{equation}
+SSTO = \sum (y_i-y_{ave})^2
+\end{equation}
+
+<ol class="org-ol">
+<li>error sum of square: SSE, \(N-2\), <b>degree of feedom</b>. As explained <a href="#DF">above</a>, it is the numerator of the MSE.
+</li>
+</ol>
+\begin{equation}
+SSE = \sum (y_i-\hat{y_i})^2
+\end{equation}
+
+<ol class="org-ol">
+<li>regression sum of square: SSR, \(1\) <b>degree of freedom</b>. Since we have SSR = SSTO-SSE
+</li>
+</ol>
+\begin{equation}
+SSR = \sum (\hat{y_i}-y_{ave})^2
+\end{equation}
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <a id="DF" name="DF"></a>The Degree of Freedom in Fitting Model</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Now we can estimate \(\sigma^2\) in two ways.
+</p>
+
+<ul class="org-ul">
+<li>Sample Variance \(S\). It's nothing new but what I explained in <a href="#SV">chapter 2</a>. We just have to think of it in a situation of fitting model. It tells how far each response \(y_i\) is from the unknown mean. We estimate it with the average value of all \(y\). Doing so "costs us one degree of freedom". That is, we have to divide by \(N-1\) rather than \(N\).
+</li>
+</ul>
 
 \begin{equation}
 S=\frac{\sum_{i=1}^{N}(y_i-y_{ave})^2}{N-1} = \frac{SSTO}{N-1}
 \end{equation}
 
 
-<ol class="org-ol">
+<ul class="org-ul">
 <li>Mean Square Error MSE. Instead of the average value of all \(y\). This time we use the predicted value of each reponse, since we assume that the &sigma; doesn't drift at each value of \(x\). By using \(\hat{y_i}\), we must estimate two parameters \(b_0\) and \(b_1\) using all data. So we lose two degrees of freedom. The denominator is therefore \(N-2\)
 </li>
-</ol>
+</ul>
 
 \begin{equation}
 MSE=\frac{\sum_{i=1}^{N}(y_i-\hat{y_i})^2}{N-2} = \frac{SSE}{N-2}
 \end{equation}
+
+<p>
+So far, you might find the relationship btw. the two items and SSTO, SSE. There are actually another thing should be mentioned.
+</p>
+<ul class="org-ul">
+<li>Regression Mean Square (MSR)
+</li>
+</ul>
+\begin{equation}
+MSR=\frac{\sum_{i=1}^{N}(y_{ave}-\hat{y_i})^2}{1} = \frac{SSE}{1}
+\end{equation}
+
+<p>
+It turns out that:
+</p>
+\begin{align*}
+E[MSR] &= \sigama^2 +b_1^2\sum_{i=1}^{N} (X_i-X_{ave})^2 \\
+E[MSE] &=\sigma^2
+\end{align*}
 </div>
 </div>
 </div>
-
-
-
-
 
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> The Coefficient of Determination, r-squared</h2>
@@ -397,11 +446,11 @@ MSE=\frac{\sum_{i=1}^{N}(y_i-\hat{y_i})^2}{N-2} = \frac{SSE}{N-2}
 <p>
 <a href="https://onlinecourses.science.psu.edu/stat501/node/255/">the reference</a>
 Test if the feature is correlated to the respond y
-There are two alternative methods for testing whether a linear association exists between the predictor x and the response y in a simple linear regression model, y=&beta;<sub>0</sub>+&beta;<sub>1x</sub> +&epsilon;
+There are two alternative methods for testing whether a linear association exists between the predictor x and the response y in a simple linear regression model, y=b<sub>0</sub>+b<sub>1x</sub> +&epsilon;
 </p>
 
 \begin{equation}
-H_0: \beta_1=0 vs. H_1: \beta_1 \neq 0
+H_0: b_1=0 vs. H_1: b_1 \neq 0
 \end{equation}
 
 <ul class="org-ul">
@@ -412,14 +461,101 @@ H_0: \beta_1=0 vs. H_1: \beta_1 \neq 0
 </ul>
 </div>
 
-
-
 <div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Concepts that I don't want to mix up.</h3>
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> R-squared and t-test</h3>
 <div class="outline-text-3" id="text-4-1">
-</div><div id="outline-container-sec-4-1-1" class="outline-4">
-<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> Linear Association?</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<p>
+\(r^2\) is alsp called coefficient of determination or r-squared value.
+</p>
+
+\begin{equation}
+r^2 = \frac{SSR}{SSTO} = 1-\frac{SSE}{SSTO} \,  \in[0,1]
+\end{equation}
+
+<p>
+Interpretation:
+</p>
+<div class="center">
+<ul class="org-ul">
+<li>\(r^2 = 1\): SSR=SSTO, \(y_i=\hat{y_i}\) The observed value lie on the regression line.
+</li>
+<li>\(r^2 = 0\): \(\hat{y_i}=y_{ave}\), regression line equals to the average line. \(x\) is independent on \(y\).
+</li>
+<li>\(otherwise\): \(100r^2\%\) of the variation in y is explained by the variation in predictor \(y\). Feature \(x\) is meaningful to prediction of \(y\).
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> F-test</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+According to the expected value of MSE and MSR, we can test \(H_0\) versus \(H_1\)
+</p>
+
+<p>
+If \(b_1\), then we'd expect the ratio MSR/MSE to equal 1.
+If \(b_1 \neq 0\), then we'd expect the ratio MSR/MSE to be greater than 1.
+</p>
+
+<p>
+According to the <a href="#Hypothesistest">WorkFlow</a>, we can write down the test statistics as \(F^*=\frac{MSR}{MSE}\).
+</p>
+
+<p>
+At last using P-value, significant level, and F-distribution to test if we should reject \(H_0\)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Workflow of Hypothesis Test<a id="Hypothesistest" name="Hypothesistest"></a></h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Firstly, specify the null \(H_0\) and alternative hypotheses \(H_1\) or \(H_A\).
+</p>
+
+<p>
+Secondly, calculate the value of the test statistic according to the methode you use.
+</p>
+
+<p>
+At last, use the resulting test statistic to calculate the P-value.
+</p>
+
+<p>
+The p-value is a measure of the strength of the evidence and even extremer eveidence against the null hypothesis. It means that, if \(H_0\) is true, how likely will the observed value and even greater value appear.
+</p>
+
+<div class="center">
+<ul class="org-ul">
+<li>If the P-value is smaller than the significance level &alpha;, we reject the null hypothesis in favor of the alternative. We conclude "there is sufficient evidence at the &alpha; level to prove \(H_0\) is false" The gap btw. the significance level and p-level reflects how significant \(H_0\) is possibly false.
+</li>
+
+<li>If the P-value is larger than the significance level &alpha;, we fail to reject the null hypothesis. We conclude "there is not enough evidence at the α level to prove \(H_0\) is false."
+</li>
+</ul>
+</div>
+
+<p>
+By the way, the test statistic could be t-statistic, representing t-test, and F-statistic, representing F-test. These two methode are common used.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Concepts that I don't want to mix up.</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Once again, I list these concepts together.
+</p>
+</div>
+<div id="outline-container-sec-6-0-1" class="outline-4">
+<h4 id="sec-6-0-1"><span class="section-number-4">6.0.1</span> Linear Association?</h4>
+<div class="outline-text-4" id="text-6-0-1">
 <p>
 Given a set of pairs \((x_i,y_i)\) (N pairs), figure out if there is linear association btw. \(y\) and \(x\) (if \(\beta_1 = 0\)). \(y_ave\) is the average of all \(y_i\), represents a line with no slope in \(x-y\) plane, it supports \(H_0\). \(\hat{y_i}\) is the predicted value, it supports \(H_1\). We have SSTO = SSE+SSR.
 </p>
@@ -454,9 +590,9 @@ If SSR is large, it suggests that a linear association btw. \(x\) and \(y\)
 </div>
 </div>
 
-<div id="outline-container-sec-4-1-2" class="outline-4">
-<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> Prediction of The Response on \(x\)</h4>
-<div class="outline-text-4" id="text-4-1-2">
+<div id="outline-container-sec-6-0-2" class="outline-4">
+<h4 id="sec-6-0-2"><span class="section-number-4">6.0.2</span> Prediction of The Response on \(x\)</h4>
+<div class="outline-text-4" id="text-6-0-2">
 <p>
 For every single \(x\), we have:
 expected prediction error = variance of the estimator + square of bias of the estimator + noise
@@ -481,38 +617,10 @@ E[(\hat{u_i}-y_i)^2] =& E[(\hat{y_i} - E[\hat{y_i}])^2] + \\
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> R-squared</h3>
-<div class="outline-text-3" id="text-4-2">
-<p>
-\(r^2\) is alsp called coefficient of determination or r-squared value.
-</p>
 
-\begin{equation}
-r^2 = \frac{SSR}{SSTO} = 1-\frac{SSE}{SSTO} \,  \in[0,1]
-\end{equation}
-
-<p>
-Interpretation:
-</p>
-<div class="center">
-<ul class="org-ul">
-<li>\(r^2 = 1\): SSR=SSTO, \(y_i=\hat{y_i}\) The observed value lie on the regression line.
-</li>
-<li>\(r^2 = 0\): \(\hat{y_i}=y_{ave}\), regression line equals to the average line. \(x\) is independent on \(y\).
-</li>
-<li>\(otherwise\): \(100r^2\%\) of the variation in y is explained by the variation in predictor \(y\). Feature \(x\) is meaningful to prediction of \(y\).
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Reference</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Reference</h2>
+<div class="outline-text-2" id="text-7">
 <ol class="org-ol">
 <li><a href="https://onlinecourses.science.psu.edu/stat501/node/2/">Online-Course of Eberly College of Science</a>
 </li>
