@@ -2,97 +2,96 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. feature selection</a>
+<li><a href="#orge7dd605">1. feature selection</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Filter Methode</a>
+<li><a href="#org0cf87a1">1.1. Filter Methode</a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1. Mutual Information and pointwise Mutual Information</a></li>
-<li><a href="#sec-1-1-2">1.1.2. Pearson product-moment correlation coefficient</a></li>
-<li><a href="#sec-1-1-3">1.1.3. Relief-based algorithm</a></li>
-<li><a href="#sec-1-1-4">1.1.4. F-test and Multual Information</a></li>
+<li><a href="#orgc25eed2">1.1.1. Mutual Information and pointwise Mutual Information</a></li>
+<li><a href="#orgac1e3da">1.1.2. Pearson product-moment correlation coefficient</a></li>
+<li><a href="#org7a2f9f5">1.1.3. Relief-based algorithm</a></li>
+<li><a href="#org877555e">1.1.4. F-test and Multual Information</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Feature Weighting</a></li>
-<li><a href="#sec-3">3. Some Other Related Concepts</a>
+<li><a href="#org78f85ff">2. Feature Weighting</a></li>
+<li><a href="#org2241ebe">3. Some Other Related Concepts</a>
 <ul>
-<li><a href="#sec-3-1">3.1. Lack-of-Fit Sum of Squares</a></li>
+<li><a href="#org562b60c">3.1. Lack-of-Fit Sum of Squares</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
----
+<div class="HTML">
+<p>
+&#x2014;
 layout: post
 title: "Feauture Engineering"
-permalink: /:title/
+permalink: <i>:title</i>
 category: Machine Learning
 tags: [Machine Learning, Statistical Learning, Feature Engineering]
----
-<script type="text/x-mathjax-config">
+&#x2014;
+&lt;script type="text/x-mathjax-config"&gt;
  MathJax.Hub.Config({
      extensions: ["tex2jax.js"],
      jax: ["input/TeX", "output/HTML-CSS"],
      tex2jax: {
-         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-         processEscapes: true
+	 inlineMath: [ ['\(','\)'], ["\\(","\\)"] ],
+	 displayMath: [ ['\[','\]'], ["\\[","\\]"] ],
+	 processEscapes: true
      },
      "HTML-CSS": { fonts: ["TeX"] }
  });
-</script>
-<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
-</script>
-<head>
-   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-</head>
+&lt;/script&gt;
+&lt;script type="text/javascript"  src="<a href="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js</a>"&gt;
+&lt;/script&gt;
+&lt;head&gt;
+   &lt;meta http-equiv="Content-Type" content="text/html;charset=utf-8"&gt;
+&lt;/head&gt;
+</p>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> feature selection</h2>
+</div>
+
+<div id="outline-container-orge7dd605" class="outline-2">
+<h2 id="orge7dd605"><span class="section-number-2">1</span> feature selection</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In machine learning and statistics, feature selection, also known as variable selection, attribute selection or variable subset selection, is the process of selecting a subset of relevant features (variables, predictors) for use in model construction. Feature selection techniques are used for four reasons:
 </p>
 
 <ul class="org-ul">
-<li>simplification of models to make them easier to interpret by researchers/users,<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>
-</li>
-<li>shorter training times,
-</li>
-<li>to avoid the curse of dimensionality,
-</li>
-<li>enhanced generalization by reducing overfitting<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> (formally, reduction of variance<sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup>)
-</li>
+<li>simplification of models to make them easier to interpret by researchers/users,[1]</li>
+<li>shorter training times,</li>
+<li>to avoid the curse of dimensionality,</li>
+<li>enhanced generalization by reducing overfitting[2] (formally, reduction of variance[1])</li>
 </ul>
 
 <p>
-A feature selection algorithm can be seen as the combination of a search technique for proposing new feature subsets, along with an evaluation measure which scores the different feature subsets. The simplest algorithm is to test each possible subset of features finding the one which minimizes the error rate. This is an exhaustive search of the space, and is computationally intractable for all but the smallest of feature sets. The choice of evaluation metric heavily influences the algorithm, and it is these evaluation metrics which distinguish between the three main categories of feature selection algorithms: wrappers, filters and embedded methods.<sup><a id="fnr.3" name="fnr.3" class="footref" href="#fn.3">3</a></sup>
+A feature selection algorithm can be seen as the combination of a search technique for proposing new feature subsets, along with an evaluation measure which scores the different feature subsets. The simplest algorithm is to test each possible subset of features finding the one which minimizes the error rate. This is an exhaustive search of the space, and is computationally intractable for all but the smallest of feature sets. The choice of evaluation metric heavily influences the algorithm, and it is these evaluation metrics which distinguish between the three main categories of feature selection algorithms: wrappers, filters and embedded methods.[3]
 </p>
 
 <ul class="org-ul">
-<li><b>Wrapper methods</b> use a predictive model to <b>score feature subsets</b>. Each <b>new subset</b> is used to <b>train a model</b>, which is <b>tested</b> on a <b>hold-out set</b>. <b>Counting the number of mistakes</b> made on that hold-out set (the error rate of the model) gives the score for that subset. As wrapper methods train a new model for each subset, they are very <b>computationally intensive</b>, but <b>usually</b> provide the <b>best performing feature set</b> for that particular type of model.
-</li>
+<li><b>Wrapper methods</b> use a predictive model to <b>score feature subsets</b>. Each <b>new subset</b> is used to <b>train a model</b>, which is <b>tested</b> on a <b>hold-out set</b>. <b>Counting the number of mistakes</b> made on that hold-out set (the error rate of the model) gives the score for that subset. As wrapper methods train a new model for each subset, they are very <b>computationally intensive</b>, but <b>usually</b> provide the <b>best performing feature set</b> for that particular type of model.</li>
 
-<li><b>Filter methods</b> use a <b>proxy measure</b> instead of the error rate to score a feature subset. This measure is chosen to be <b>fast to compute</b>, while still capturing the usefulness of the feature set. Common measures include the <b>mutual information</b>,<sup><a id="fnr.3.100" name="fnr.3.100" class="footref" href="#fn.3">3</a></sup> the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information">pointwise mutual information</a>,<sup><a id="fnr.4" name="fnr.4" class="footref" href="#fn.4">4</a></sup> <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson product-moment correlation coefficient</a>, <a href="https://en.wikipedia.org/wiki/Relief_(feature_selection)">Relief-based algorithms</a>,<sup><a id="fnr.5" name="fnr.5" class="footref" href="#fn.5">5</a></sup> and <b>inter/intra class distance</b> or the <b>scores of significance tests</b> for each class/feature combinations.<sup><a id="fnr.4.100" name="fnr.4.100" class="footref" href="#fn.4">4</a></sup><sup>, </sup><sup><a id="fnr.6" name="fnr.6" class="footref" href="#fn.6">6</a></sup> Filters are usually <b>less computationally intensive</b> than wrappers, but they produce a feature set which is not tuned to a specific type of predictive model.<sup><a id="fnr.7" name="fnr.7" class="footref" href="#fn.7">7</a></sup> This <b>lack of tuning</b> means a feature set from a filter is more general than the set from a wrapper, usually giving <b>lower prediction performance</b> than a wrapper. However the feature set <b>doesn't contain the assumptions of a prediction model</b>, and so is <b>more useful for exposing the relationships between the features</b>. Many filters provide a <b>feature ranking</b> rather than an explicit best feature subset, and the <b>cut off point in the ranking</b> is chosen <b>via cross-validation</b>. Filter methods have also been* used as a preprocessing step for wrapper methods*, allowing a wrapper to be used on larger problems. One other popular approach is the <b>Recursive Feature Elimination algorithm</b>, commonly used with <b>SVM</b> to <b>repeatedly construct</b> a model and remove features with low weights.
-</li>
+<li><b>Filter methods</b> use a <b>proxy measure</b> instead of the error rate to score a feature subset. This measure is chosen to be <b>fast to compute</b>, while still capturing the usefulness of the feature set. Common measures include the <b>mutual information</b>,[3] the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information">pointwise mutual information</a>,[4] <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">Pearson product-moment correlation coefficient</a>, <a href="https://en.wikipedia.org/wiki/Relief_(feature_selection)">Relief-based algorithms</a>,[5] and <b>inter/intra class distance</b> or the <b>scores of significance tests</b> for each class/feature combinations.[4][6] Filters are usually <b>less computationally intensive</b> than wrappers, but they produce a feature set which is not tuned to a specific type of predictive model.[7] This <b>lack of tuning</b> means a feature set from a filter is more general than the set from a wrapper, usually giving <b>lower prediction performance</b> than a wrapper. However the feature set <b>doesn't contain the assumptions of a prediction model</b>, and so is <b>more useful for exposing the relationships between the features</b>. Many filters provide a <b>feature ranking</b> rather than an explicit best feature subset, and the <b>cut off point in the ranking</b> is chosen <b>via cross-validation</b>. Filter methods have also been* used as a preprocessing step for wrapper methods*, allowing a wrapper to be used on larger problems. One other popular approach is the <b>Recursive Feature Elimination algorithm</b>, commonly used with <b>SVM</b> to <b>repeatedly construct</b> a model and remove features with low weights.</li>
 
-<li><b>Embedded methods</b> are a catch-all group of techniques which perform feature selection as part of the model construction process(<b>e.g. objective function with regularization</b>). The exemplar of this approach is the LASSO method for constructing a linear model, which penalizes the regression coefficients with an L1 penalty, shrinking many of them to zero. Any features which have non-zero regression coefficients are 'selected' by the LASSO algorithm. Improvements to the LASSO include Bolasso which bootstraps samples,;<sup><a id="fnr.8" name="fnr.8" class="footref" href="#fn.8">8</a></sup> Elastic net regularization, which combines the L1 penalty of LASSO with the L2 penalty of Ridge Regression; and FeaLect which scores all the features based on combinatorial analysis of regression coefficients.<sup><a id="fnr.9" name="fnr.9" class="footref" href="#fn.9">9</a></sup> These approaches tend to be between filters and wrappers in terms of computational complexity.
-</li>
+<li><b>Embedded methods</b> are a catch-all group of techniques which perform feature selection as part of the model construction process(<b>e.g. objective function with regularization</b>). The exemplar of this approach is the LASSO method for constructing a linear model, which penalizes the regression coefficients with an L1 penalty, shrinking many of them to zero. Any features which have non-zero regression coefficients are 'selected' by the LASSO algorithm. Improvements to the LASSO include Bolasso which bootstraps samples,;[8] Elastic net regularization, which combines the L1 penalty of LASSO with the L2 penalty of Ridge Regression; and FeaLect which scores all the features based on combinatorial analysis of regression coefficients.[9] These approaches tend to be between filters and wrappers in terms of computational complexity.</li>
 </ul>
 </div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Filter Methode</h3>
+<div id="outline-container-org0cf87a1" class="outline-3">
+<h3 id="org0cf87a1"><span class="section-number-3">1.1</span> Filter Methode</h3>
 <div class="outline-text-3" id="text-1-1">
-</div><div id="outline-container-sec-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Mutual Information and pointwise Mutual Information</h4>
 </div>
-<div id="outline-container-sec-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Pearson product-moment correlation coefficient</h4>
+<div id="outline-container-orgc25eed2" class="outline-4">
+<h4 id="orgc25eed2"><span class="section-number-4">1.1.1</span> Mutual Information and pointwise Mutual Information</h4>
 </div>
-<div id="outline-container-sec-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Relief-based algorithm</h4>
+<div id="outline-container-orgac1e3da" class="outline-4">
+<h4 id="orgac1e3da"><span class="section-number-4">1.1.2</span> Pearson product-moment correlation coefficient</h4>
+</div>
+<div id="outline-container-org7a2f9f5" class="outline-4">
+<h4 id="org7a2f9f5"><span class="section-number-4">1.1.3</span> Relief-based algorithm</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 Take a data set with n instances of p features, belonging to two known classes. Within the data set, each feature should be scaled to the interval \([0 1]\) (binary data should remain as 0 and 1). The algorithm will be repeated m times. Start with a p-long weight vector (\(W\)) of zeros.
@@ -107,8 +106,8 @@ W_i = W_i-\sqrt((x_i-nearHit_i))+ \sqrt((x_i-nearMiss_i))
 </div>
 </div>
 
-<div id="outline-container-sec-1-1-4" class="outline-4">
-<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> F-test and Multual Information</h4>
+<div id="outline-container-org877555e" class="outline-4">
+<h4 id="org877555e"><span class="section-number-4">1.1.4</span> F-test and Multual Information</h4>
 <div class="outline-text-4" id="text-1-1-4">
 <p>
 <a href="https://scikit-learn.org/stable/auto_examples/feature_selection/plot_f_test_vs_mi.html">Comparison of F-test and mutual information</a>
@@ -129,16 +128,17 @@ As F-test captures only linear dependency, it rates x<sub>1</sub> as the most di
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Feature Weighting</h2>
+<div id="outline-container-org78f85ff" class="outline-2">
+<h2 id="org78f85ff"><span class="section-number-2">2</span> Feature Weighting</h2>
 </div>
 
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Some Other Related Concepts</h2>
+<div id="outline-container-org2241ebe" class="outline-2">
+<h2 id="org2241ebe"><span class="section-number-2">3</span> Some Other Related Concepts</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <a href="https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares">Lack-of-Fit Sum of Squares</a></h3>
+</div>
+<div id="outline-container-org562b60c" class="outline-3">
+<h3 id="org562b60c"><span class="section-number-3">3.1</span> <a href="https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares">Lack-of-Fit Sum of Squares</a></h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Def.: One of the components of a partition of the <b>sum of squares of residuals</b>, the other one is <b>pure-error sum of squares</b>.
@@ -153,7 +153,7 @@ The sum of squares due to "pure" error is the sum of squares of the differences 
 </p>
 
 <p>
-The sum of squares due to lack of fit is the weighted sum of squares of differences between each average of y-values corresponding to the same x-value and the corresponding fitted y-value, the weight in each case being simply the number of observed y-values for that x-value.<sup><a id="fnr.1.100" name="fnr.1.100" class="footref" href="#fn.1">1</a></sup><sup>, </sup><sup><a id="fnr.2.100" name="fnr.2.100" class="footref" href="#fn.2">2</a></sup> Because it is a property of least squares regression that the vector whose components are "pure errors" and the vector of lack-of-fit components are orthogonal to each other, the following equality holds:
+The sum of squares due to lack of fit is the weighted sum of squares of differences between each average of y-values corresponding to the same x-value and the corresponding fitted y-value, the weight in each case being simply the number of observed y-values for that x-value.[1][2] Because it is a property of least squares regression that the vector whose components are "pure errors" and the vector of lack-of-fit components are orthogonal to each other, the following equality holds:
 </p>
 
 <p>
@@ -171,48 +171,5 @@ A regression model exhibits lack-of-fit when it fails to adequately describe the
 If you think about it, there are two different explanations for why our data points might not fall right on the estimated regression line. One possibility is that our regression model doesn't describe the trend in the data well enough. That is, the model may exhibit "lack of fit." The second possibility is that, as is often the case, there is just random variation in the data. This realization suggests that we should decompose the error into two components — one part due to lack of fit of the model and the second part just due to random error. If most of the error is due to lack of fit, and not just random error, it suggests that we should scrap our model and try a different one.
 </p>
 </div>
-</div>
-</div>
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
-Gareth James; Daniela Witten; Trevor Hastie; Robert Tibshirani (2013). An Introduction to Statistical Learning. Springer. p. 204.
-</p></div>
-
-<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
-Bermingham, Mairead L.; Pong-Wong, Ricardo; Spiliopoulou, Athina; Hayward, Caroline; Rudan, Igor; Campbell, Harry; Wright, Alan F.; Wilson, James F.; Agakov, Felix; Navarro, Pau; Haley, Chris S. (2015). "Application of high-dimensional feature selection: evaluation for genomic prediction in man".
-</p></div>
-
-<div class="footdef"><sup><a id="fn.3" name="fn.3" class="footnum" href="#fnr.3">3</a></sup> <p class="footpara">
-Guyon, Isabelle; Elisseeff, Andre (2003). "An Introduction to Variable and Feature Selection". JMLR. 3
-</p></div>
-
-<div class="footdef"><sup><a id="fn.4" name="fn.4" class="footnum" href="#fnr.4">4</a></sup> <p class="footpara">
-Yang, Yiming; Pedersen, Jan O. (1997). A comparative study on feature selection in text categorization
-</p></div>
-
-<div class="footdef"><sup><a id="fn.5" name="fn.5" class="footnum" href="#fnr.5">5</a></sup> <p class="footpara">
-Urbanowicz, Ryan J.; Meeker, Melissa; LaCava, William; Olson, Randal S.; Moore, Jason H. (2017-11-22). "Relief-Based Feature Selection: Introduction and Review". arXiv:1711.08421 [cs.DS].
-</p></div>
-
-<div class="footdef"><sup><a id="fn.6" name="fn.6" class="footnum" href="#fnr.6">6</a></sup> <p class="footpara">
-Forman, George (2003). "An extensive empirical study of feature selection metrics for text classification". Journal of Machine Learning Research. 3: 1289–1305.
-</p></div>
-
-<div class="footdef"><sup><a id="fn.7" name="fn.7" class="footnum" href="#fnr.7">7</a></sup> <p class="footpara">
-Yishi Zhang; Shujuan Li; Teng Wang; Zigang Zhang (2013). "Divergence-based feature selection for separate classes". Neurocomputing. 101 (4): 32–42.
-</p></div>
-
-<div class="footdef"><sup><a id="fn.8" name="fn.8" class="footnum" href="#fnr.8">8</a></sup> <p class="footpara">
-Bach, Francis R (2008). Bolasso: model consistent lasso estimation through the bootstrap. Proceedings of the 25th International Conference on Machine Learning. pp. 33–40.
-</p></div>
-
-<div class="footdef"><sup><a id="fn.9" name="fn.9" class="footnum" href="#fnr.9">9</a></sup> <p class="footpara">
-Zare, Habil (2013). "Scoring relevancy of features based on combinatorial analysis of Lasso with application to lymphoma diagnosis". BMC Genomics. 14: S14.
-</p></div>
-
-
 </div>
 </div>

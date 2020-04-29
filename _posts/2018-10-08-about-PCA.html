@@ -1,42 +1,48 @@
----
-layout: post
-title: "Notes of PCA (Principle Component Analysis)--- Go Through Some Main Ideas of Linear Algebra"
-permalink: /:title/
-category: Machine Learning
-tags: [Machine Learning, PCA]
----
-<script type="text/x-mathjax-config">
- MathJax.Hub.Config({
-     extensions: ["tex2jax.js"],
-     jax: ["input/TeX", "output/HTML-CSS"],
-     tex2jax: {
-         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-         processEscapes: true
-     },
-     "HTML-CSS": { fonts: ["TeX"] }
- });
-</script>
-<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
-</script>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-</head>
-
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Nonsense (Hhhhh)</a></li>
-<li><a href="#sec-2">2. An Example "We" all Know</a></li>
-<li><a href="#sec-3">3. Description of Problem</a></li>
-<li><a href="#sec-4">4. Solutions</a></li>
+<li><a href="#org16b21ed">1. Nonsense (Hhhhh)</a></li>
+<li><a href="#org7674a31">2. An Example "We" all Know</a></li>
+<li><a href="#org0e9314c">3. Description of Problem</a></li>
+<li><a href="#org6d84901">4. Solutions</a></li>
 </ul>
 </div>
 </div>
+<div class="HTML">
+<p>
+&#x2014;
+layout: post
+title: "Notes of PCA (Principle Component Analysis)&#x2014; Go Through Some Main Ideas of Linear Algebra"
+permalink: <i>:title</i>
+category: Machine Learning
+tags: [Machine Learning, PCA]
+&#x2014;
+&lt;script type="text/x-mathjax-config"&gt;
+ MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+	 inlineMath: [ ['\(','\)'], ["\\(","\\)"] ],
+	 displayMath: [ ['\[','\]'], ["\\[","\\]"] ],
+	 processEscapes: true
+     },
+     "HTML-CSS": { fonts: ["TeX"] }
+ });
+&lt;/script&gt;
+&lt;script type="text/javascript"  src="<a href="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js</a>"&gt;
+&lt;/script&gt;
+&lt;head&gt;
+   &lt;meta http-equiv="Content-Type" content="text/html;charset=utf-8"&gt;
+&lt;/head&gt;
+</p>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Nonsense (Hhhhh)</h2>
+</div>
+
+
+
+<div id="outline-container-org16b21ed" class="outline-2">
+<h2 id="org16b21ed"><span class="section-number-2">1</span> Nonsense (Hhhhh)</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The application of linear algebra in engineering is very extensive and in-depth, and <i>Linear Algebra</i> provides a beautiful mathematical interpretation of the real world. You may use it in different engineering fields, e.g. spatial coordinate transformation, wavelet analysis, Fourier transform, image processing, parameter identification, etc., all of which require you to have a solid knowledge of linear algebra. There are also many classic online open courses and resources. Actually, you will find that linear algebra is thoroughly interesting! This post will use PCA as an example to quickly browse through some important basic ideas of linear algebra. In the last semester, linear algebra was used in many courses, I'd better sort it out.
@@ -44,8 +50,8 @@ The application of linear algebra in engineering is very extensive and in-depth,
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> An Example "We" all Know</h2>
+<div id="outline-container-org7674a31" class="outline-2">
+<h2 id="org7674a31"><span class="section-number-2">2</span> An Example "We" all Know</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 If you are or have ever been a student from engineering, you must be very familiar with Fourier transformation that can transform a continuous periodic time domain signal to a discrete aperiodic frequency domain signal. Generally, in the time domain, the signal doesn't give us clear enough information, but in the frequency domain, we can find which frequencies own the relative higher amplitudes and then rank them. PCA is just like this (but not the same, PCA does lossy compression), it tries to find the principle components of the given data. that usually requires a new interpretation of the original data.
@@ -53,15 +59,15 @@ If you are or have ever been a student from engineering, you must be very famili
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Description of Problem</h2>
+<div id="outline-container-org0e9314c" class="outline-2">
+<h2 id="org0e9314c"><span class="section-number-2">3</span> Description of Problem</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 In order to save memory, it is usually necessary to reduce the dimension of the data, as shown in the two-dimensional space of the following figure. If they are required to compress in one dimension space, that is, a line, how to select this line to make the error of reconstruction smallest? Obviously, u<sub>1</sub> wins. The main task of PCA is like the following:
 </p>
 
 <p>
-Suppose we have n data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>n</sub>) in the R<sup>d</sup> space, and the <b>design matrix X in R<sup>nxd</sup></b>. We want to do some lossy comression to decrease the dimension to d<sup>'</sup>, meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R<sup>d<sup>'xd</sup></sup>to project the origin data to a best hyperplane. The data after transformation is represented as
+Suppose we have n data (x<sub>1</sub>, x<sub>2</sub>,&#x2026;, x<sub>n</sub>) in the R<sup>d</sup> space, and the <b>design matrix X in R<sup>nxd</sup></b>. We want to do some lossy comression to decrease the dimension to d^', meanwhile we hope not to damage the represental accuracy of the original data (i.e. the variance of the transformed data should be maximal). Thus, we should find a linear transformation L in R<sup>d^'xd</sup>to project the origin data to a best hyperplane. The data after transformation is represented as
 </p>
 
 \begin{equation}
@@ -70,7 +76,7 @@ y_i =L x_i
 
 
 <p>
-where y<sub>i</sub> in R<sup>d<sup>'</sup></sup>. Let Y in R<sup>nxd<sup>'</sup></sup>be the design matrix of the output of transformation. The row of Y is transpose of y vector, so we have:
+where y<sub>i</sub> in R<sup>d^'</sup>. Let Y in R<sup>nxd^'</sup>be the design matrix of the output of transformation. The row of Y is transpose of y vector, so we have:
 </p>
 
 \begin{equation}
@@ -79,17 +85,15 @@ Y = X L^T
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Solutions</h2>
+<div id="outline-container-org6d84901" class="outline-2">
+<h2 id="org6d84901"><span class="section-number-2">4</span> Solutions</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Two principles:
 </p>
 <ul class="org-ul">
-<li>The projection hyperplane should be as close as possible to the original data, so that the reconstrcution is easier.
-</li>
-<li>The projected/transformed data should be as seperate from each other as possible on the hyperplane, which means the data after projection should represent the original data as precisely as possible.
-</li>
+<li>The projection hyperplane should be as close as possible to the original data, so that the reconstrcution is easier.</li>
+<li>The projected/transformed data should be as seperate from each other as possible on the hyperplane, which means the data after projection should represent the original data as precisely as possible.</li>
 </ul>
 
 <p>
@@ -100,12 +104,9 @@ Let's first look at the example in the following figure. Suppose we have 2 featu
 <p>
 The covariance matrix of X is represented as:
 </p>
-<div class="export">
 \begin{equation}
 C_x=\frac{1}{n} X^T X
 \end{equation}
-
-</div>
 
 
 <p>
@@ -116,7 +117,7 @@ C_y=\frac{1}{n} Y^T Y = \frac{1}{n} L X^X L^T = L C_x L^T = M^T c_x M
 \end{equation}
 
 <p>
-So, we should find out the M so that covariance of the features equal 0, and the variance of the features are maximal. which also means that c<sub>y</sub> is optimized to be diagonal. If c<sub>y</sub> is positive definit, it turns out that the best M has eigenvectors of c<sub>y</sub> as its columns. We know that if c<sub>y</sub> is <b>positive definit</b>, we can always find out the <b>eigenvectors</b> of c<sub>y</sub> which is <b>orthognal or orthonormal</b>. So the final linear transformation for lossy compression is matrix with the d<sup>'</sup> eigenvector as rows, which correspond to the <b>d<sup>'</sup> largest eigenvalues</b>. AN example is shown in the following figure.
+So, we should find out the M so that covariance of the features equal 0, and the variance of the features are maximal. which also means that c<sub>y</sub> is optimized to be diagonal. If c<sub>y</sub> is positive definit, it turns out that the best M has eigenvectors of c<sub>y</sub> as its columns. We know that if c<sub>y</sub> is <b>positive definit</b>, we can always find out the <b>eigenvectors</b> of c<sub>y</sub> which is <b>orthognal or orthonormal</b>. So the final linear transformation for lossy compression is matrix with the d^' eigenvector as rows, which correspond to the <b>d^' largest eigenvalues</b>. AN example is shown in the following figure.
 </p>
 
 
@@ -127,7 +128,7 @@ So, we should find out the M so that covariance of the features equal 0, and the
 
 
 <p>
-This is easy to understand, suppose we have 3 times 3 matrix A, we can regard the determinant of A as and the volume with three eigenvalues representing the length of 3 edges. So the larger the eigenvalue is, the more the Matrix 'A' is *"stretched"* in that direction.
+This is easy to understand, suppose we have 3 times 3 matrix A, we can regard the determinant of A as and the volume with three eigenvalues representing the length of 3 edges. So the larger the eigenvalue is, the more the Matrix 'A' is <b>"stretched"</b> in that direction.
 </p>
 
 <p>

@@ -12,7 +12,7 @@ tags: [Hi Language]
 
 This video is originally from [[https://ed.ted.com/][TED-ED]]. It tells us about the book Slaughterhouse-Five and the author Kurt Vonnegut. The audio version of this book can be downloaded from [[https://shop.ed.ted.com/products/slaughterhouse-five][This Website]].
 
-[[yt:cwwK7NmfF9w]]
+
 
 
 + abduct sb

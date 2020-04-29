@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Notes --- Read and Write Files"
+permalink: /:title/
+category: Data Visualization
+tags: [Pandas, Data Visualization]
+---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -12,12 +19,6 @@
 </ul>
 </div>
 </div>
----
-layout: post
-title: "Notes --- Read and Write Files"
-permalink: /:title/
-tagxs: [Data Visualization]
----
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 </head>
@@ -40,7 +41,7 @@ tagxs: [Data Visualization]
 安装Pymysql包： conda install pymysql
 </p>
 
-<div class="org-src-container" style="background-color: #000000; color: #E7E7E7">
+<div class="org-src-container">
 
 <pre class="src src-python"><span class="linenr">1: </span><span style="color: #fff59d;">from</span> PIL <span style="color: #fff59d;">import</span> Image
 <span class="linenr">2: </span><span style="color: #fff59d;">import</span> numpy <span style="color: #fff59d;">as</span> np
