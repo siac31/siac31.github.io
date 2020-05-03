@@ -2,8 +2,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgfc06728">1. Decomposing the Error</a></li>
-<li><a href="#org4332b08">2. Reference</a></li>
+<li><a href="#org5712cc6">1. Refer to the former blog</a></li>
+<li><a href="#orgfc06728">2. Decomposing the Error</a></li>
+<li><a href="#org4332b08">3. Reference</a></li>
 </ul>
 </div>
 </div>
@@ -37,11 +38,9 @@ tags: [Machine Learning, Statistical Learning, Feature Engineering]
 
 </div>
 
-<p>
-Refer to the <a href="../_posts/2018-12-12-From-Statistics-To-Lack-of-fit-test.html">former blog</a>.
-</p>
-
-
+<div id="outline-container-org5712cc6" class="outline-2">
+<h2 id="org5712cc6"><span class="section-number-2">1</span> Refer to the <a href="../_posts/2018-12-12-From-Statistics-To-Lack-of-fit-test.html">former blog</a></h2>
+<div class="outline-text-2" id="text-1">
 <p>
 Recall the example of using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. We want to know if the feature is related to the outputs.
 </p>
@@ -49,10 +48,12 @@ Recall the example of using the polynomial to approximate the sin function. The 
 <p>
 In statistics, a lack-of-fit test is any of many tests of a null hypothesis that a proposed statistical model fits well.
 </p>
+</div>
+</div>
 
 <div id="outline-container-orgfc06728" class="outline-2">
-<h2 id="orgfc06728"><span class="section-number-2">1</span> Decomposing the Error</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="orgfc06728"><span class="section-number-2">2</span> Decomposing the Error</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 Again, suppose there is a real model \(f(x)\), and we get the prediction function based on the data points drawn from \(y=f(x)+\N(0,\sigma^2)\). Suppose the noise is normally distributed and at each single value of \(x\) we have the same &sigma; without drift. For every single value of \(x_i\) we may actually get several different responses \(y_{ij}\), where \(i \in [1,2,..C]\) and \(j \in [1,2,..N_i]\). \(N_i\) is the number of the responses corresponding to \(x_i\), \(C\) is the number of distinct \(x\) in the data set.
 According to <a href="https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares">wikipedia</a>.
@@ -69,8 +70,8 @@ We break down the residual error ("error sum of squares" — denoted SSE) into t
 
 
 <div id="outline-container-org4332b08" class="outline-2">
-<h2 id="org4332b08"><span class="section-number-2">2</span> Reference</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="org4332b08"><span class="section-number-2">3</span> Reference</h2>
+<div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li><a href="https://en.wikipedia.org/wiki/Lack-of-fit_sum_of_squares">Lack of fit sum of squares</a></li>
 <li><a href="https://onlinecourses.science.psu.edu/stat501/node/2/">Online-Course of Eberly College of Science</a></li>

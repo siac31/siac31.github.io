@@ -1,3 +1,5 @@
+
+
 #+BEGIN_HTML
 ---
 layout: post
@@ -7,6 +9,7 @@ category: Funny Stuff
 tags: [WeChat]
 ---
 #+END_HTML
+
 * Introduction
 
 According to the official introduction, the WeChat Applets can be easily acquired and spread in WeChat, that provides an enormously convenient connection between the users and abundant services. Thanks to the complete documents and the lightweight development tool, a quick start to develop a simple applet is possible. It's not impossible to say that everybody can build an applet. More information can be referred on the official online development documents: [[https://developers.weixin.qq.com/miniprogram/introduction/index.html?t%3D18082920][Introduction to WeChat Applet]].

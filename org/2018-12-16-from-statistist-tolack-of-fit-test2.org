@@ -1,3 +1,5 @@
+
+
 #+BEGIN_HTML
 ---
 layout: post
@@ -25,7 +27,7 @@ tags: [Machine Learning, Statistical Learning, Feature Engineering]
 </head>
 #+END_HTML
 
-Refer to the [[../_posts/2018-12-12-From-Statistics-To-Lack-of-fit-test.html][former blog]].
+* Refer to the [[../_posts/2018-12-12-From-Statistics-To-Lack-of-fit-test.html][former blog]]
 
 
 Recall the example of using the polynomial to approximate the sin function. The order of polynomial we choose is vital to get a proper fitting. So actually, every parameter corresponds to a feature. We want to know if the feature is related to the outputs.
