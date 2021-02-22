@@ -1,48 +1,39 @@
----
-layout: post
-title: "Notes --- Read and Write Files"
-permalink: /:title/
-category: Data Visualization
-tags: [Pandas, Data Visualization]
----
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 文本数据（csv,txt）</a>
+<li><a href="#orgbfdb537">1. 文本数据（csv,txt）</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Requirements</a></li>
+<li><a href="#orge5e7bc3">1.1. Requirements</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. JSON和Excel数据</a></li>
-<li><a href="#sec-3">3. 数据库的读取和存储</a></li>
+<li><a href="#orga689892">2. JSON和Excel数据</a></li>
+<li><a href="#orga99ff8b">3. 数据库的读取和存储</a></li>
 </ul>
 </div>
 </div>
-<head>
-   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-</head>
+<div class="HTML">
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 文本数据（csv,txt）</h2>
+
+</div>
+
+<div id="outline-container-orgbfdb537" class="outline-2">
+<h2 id="orgbfdb537"><span class="section-number-2">1</span> 文本数据（csv,txt）</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">read_csv()</a> : 加载带分隔符的数据，默认分隔符为逗号
-</li>
-<li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html">read_table()</a> : 加载带分割的数据，默认分隔符为制表符
-</li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">read_csv()</a> : 加载带分隔符的数据，默认分隔符为逗号</li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_table.html">read_table()</a> : 加载带分割的数据，默认分隔符为制表符</li>
 </ul>
 </div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Requirements</h3>
+<div id="outline-container-orge5e7bc3" class="outline-3">
+<h3 id="orge5e7bc3"><span class="section-number-3">1.1</span> Requirements</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 安装Pymysql包： conda install pymysql
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-python"><span class="linenr">1: </span><span style="color: #fff59d;">from</span> PIL <span style="color: #fff59d;">import</span> Image
 <span class="linenr">2: </span><span style="color: #fff59d;">import</span> numpy <span style="color: #fff59d;">as</span> np
 <span class="linenr">3: </span><span style="color: #ffcc80;">im</span>=np.array(Image.<span style="color: #ff8A65;">open</span>(<span style="color: #9ccc65;">'/path/of/image'</span>))
@@ -58,9 +49,9 @@ tags: [Pandas, Data Visualization]
 </div>
 
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> JSON和Excel数据</h2>
+<div id="outline-container-orga689892" class="outline-2">
+<h2 id="orga689892"><span class="section-number-2">2</span> JSON和Excel数据</h2>
 </div>
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> 数据库的读取和存储</h2>
+<div id="outline-container-orga99ff8b" class="outline-2">
+<h2 id="orga99ff8b"><span class="section-number-2">3</span> 数据库的读取和存储</h2>
 </div>

@@ -1,0 +1,41 @@
+
+
+#+BEGIN_HTML
+---
+layout: post
+title: "Project Sensitivity"
+permalink: /:title/
+category: Cost Management
+tags: [Numpy, Pandas, Python,Cost Management]
+---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+#+END_HTML
+#+OPTIONS: ^:{}
+
+
+
+* 学习笔记
+最近在“ abc成本分析” 公众号学习，对一个深入浅出卖烧饼的例子很感兴趣，于是，在github上上传了一个代码复现文中的例子。有兴趣的同学可以看看说明那一章有提到出处，可以去找来看看。
+
+[[https://github.com/siac31/CostManagement/tree/master][Github代码链接]]
+
+
+* 说明
+此程序的逻辑来源于微信公众号 - "ABC成本分析"分享的文章 - "目标价模拟案例详解"（"产品底价怎么定"系列课程）-这篇文章浅显易懂的讲述了业务场景（卖烧饼）中，如何从》
+ + 确立盈利目标
+ + 市场调查（潜在销量，产品类型，市场价格）
+ + 成本解构
+ + 确立销量目标
+ + 建立损益表（利润表），现金流量表
+ + 确立并计算项目经济性评估指标：NPV净现值，IRR内部收益率
+ + 分析盈利目标是否达成
+ + 进一步分析项目指标（NPV，IRR）对成本，销量，售价的敏感程度
+ + 根据接过来提高盈利的方式：降低成本？提高销量？提高售价？
+
+最后，我非常感谢ABC成本分析公众号，从中学习了很多，这个代码的复现纯粹是为记一下学习笔记。建议大家学习的时候跟着讲解自己再复盘一遍，加深映像：
+ + 我在学习的时候，也在excel里重新绘制了文章中的模型
+ + 同时使用pandas编写了代码来计算项目敏感性
+
+The old saying says "Learning by doing!". Keep going guys.

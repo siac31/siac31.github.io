@@ -1,0 +1,25 @@
+
+
+#+BEGIN_HTML
+---
+layout:post
+title:"Project Sensitivity"
+permalink: /:title/
+category: Cost Management
+tags:[Numpy, Pandas, Python,Cost Management]
+---
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=ztf-8">
+</head>
+#+END_HTML
+#+OPTIONS: ^:{}
+
+
+
+
+
+
+
+
+* 说明
+此程序的逻辑来源于微信公众号 - ABC成本分析 分享的文章 - 目标价模拟案例详解（产品底价怎么定系列课程）-
